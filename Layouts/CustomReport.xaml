@@ -1,0 +1,342 @@
+﻿<UserControl x:Class="Electricity_Subscriber.Layouts.CustomReport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Electricity_Subscriber.Layouts" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             FlowDirection="LeftToRight"
+             d:DesignHeight="600" d:DesignWidth="1000"
+             
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="btnClose">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"  CornerRadius="10" Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Foreground="White" Height="40" Width="40" Kind="Close"/>
+
+                                    <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="BtnPrint">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"  CornerRadius="10" Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Foreground="White" Height="40" Width="40" Kind="Printer"/>
+
+                                    <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="BtnSearch">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"  CornerRadius="10" Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Foreground="White" Height="40" Width="40" Kind="Search"/>
+
+                                    <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="BtnUpdate">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"  CornerRadius="10" Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Foreground="White" Height="40" Width="40" Kind="Update"/>
+
+                                    <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="BtnUpdateFaster">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"  CornerRadius="10" Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Foreground="White" Height="40" Width="40" Kind="ClockFast"/>
+
+                                    <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+
+
+        <Grid>
+
+
+
+            <Grid>
+                <Grid Background="{StaticResource MainColor}" Name="MainGrid" >
+                        <Grid x:Name="GridlistChecks" Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition  />
+
+                            </Grid.RowDefinitions>
+
+
+
+                            <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
+                                <TextBlock VerticalAlignment="Center" FontSize="25" Text=" للبحث"/>
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <TextBox MaxLength="10" BorderBrush="Transparent"   Name="txtID" TextAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  Width="200" Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <TextBlock Name="txtNameSub" Text=""   TextAlignment="Center"  VerticalAlignment="Center"  FontSize="25"   Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+
+                                <Button Style="{StaticResource BtnSearch}" Click="btnSearch_Click"  Name="btnSearch"  Content="ابحث" />
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Black" Text="المجموع"   TextAlignment="Center"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"  Background="{StaticResource MainElementColor2}"/>
+
+                                        <TextBlock Margin="10,0"   Name="txtTotal" TextAlignment="Center"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"   Background="{StaticResource MainElementColor2}"/>
+
+                                    </StackPanel>
+                                </materialDesign:Card>
+                                <Button Uid="Printer" Content="طباعة"  Style="{StaticResource BtnPrint}"  HorizontalAlignment="Right"   VerticalAlignment="Center" Click="Button_Click" />
+
+                            </StackPanel>
+
+
+                            <StackPanel FlowDirection="RightToLeft"  Grid.Row="1" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
+
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Black" Text="للفترة من"   TextAlignment="Center"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"  Background="{StaticResource MainElementColor2}"/>
+
+
+                                    </StackPanel>
+                                </materialDesign:Card>
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <ComboBox BorderBrush="Transparent" Text="07" Name="txtMonthFrom" SelectedIndex="0"
+                                          DisplayMemberPath="MonthName" ItemsSource="{Binding MonthList}" 
+                                          HorizontalContentAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  MinWidth="30" Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <ComboBox BorderBrush="Transparent" Name="txtYearFrom" SelectedIndex="3"
+                                           DisplayMemberPath="YearName" ItemsSource="{Binding YearList}"
+                                           HorizontalContentAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  Width="90" Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+
+
+
+
+
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Black" Text="للفترة الى"   TextAlignment="Center"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"  Background="{StaticResource MainElementColor2}"/>
+
+
+                                    </StackPanel>
+                                </materialDesign:Card>
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <ComboBox BorderBrush="Transparent" Text="07" Name="txtMonthTo" SelectedIndex="0" DisplayMemberPath="MonthName" ItemsSource="{Binding MonthList}" HorizontalContentAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  MinWidth="30" Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+
+                                <materialDesign:Card Padding="10 0" Margin="10 0">
+                                    <ComboBox BorderBrush="Transparent"  Name="txtYearTo" SelectedIndex="3" DisplayMemberPath="YearName" ItemsSource="{Binding YearList}" HorizontalContentAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  Width="90" Background="{StaticResource MainElementColor2}"/>
+
+                                </materialDesign:Card>
+
+
+                            </StackPanel>
+
+
+
+                            <Grid Grid.Row="2" FlowDirection="RightToLeft">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:Card Padding="2" Margin="5" >
+                                    <ListBox FontSize="20" Name="list1"  Background="White"/>
+
+                                </materialDesign:Card>
+                                <DataGrid AutoGeneratedColumns="Datagrid1_AutoGeneratedColumns" FontWeight="Bold" FontSize="15" Grid.Column="1"   MinWidth="900"    ScrollViewer.VerticalScrollBarVisibility="Hidden"    Name="Datagrid1"  IsReadOnly="True" >
+
+                                    <DataGrid.Resources>
+                                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <!--<Setter Property="FontSize" Value="20"/>-->
+
+                                            <Setter Property="Background" Value="#FF90CAF9"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+
+                                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            <Setter Property="Margin" Value="5 5"/>
+                                        </Style>
+                                    </DataGrid.Resources>
+                                </DataGrid>
+
+                            </Grid>
+
+
+                        </Grid>
+
+
+
+
+
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+
+
+
+
+
+
+
+        </Grid>
+
+    </Grid>
+</UserControl>
