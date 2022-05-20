@@ -93,7 +93,9 @@ namespace Electricity_Subscriber.Layouts
             }
         }
 
-        private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+       
+
+        private void AddNewTab_Click(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
             AddTab();

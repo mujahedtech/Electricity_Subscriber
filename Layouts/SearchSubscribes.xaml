@@ -200,7 +200,7 @@
                                         BorderThickness="{TemplateBinding  BorderThickness}"
                                         BorderBrush="{TemplateBinding  BorderBrush}"
                                         Margin="1,1">
-                                    <Grid MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                                    <Grid >
                                         <Grid.ColumnDefinitions>
 
                                             <ColumnDefinition Width="5" />
@@ -275,7 +275,7 @@
                 <Border CornerRadius="2"
                       Background="DodgerBlue"
                         Margin="1,1">
-                    <Grid MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                    <Grid >
                         <Grid.ColumnDefinitions>
 
                             <ColumnDefinition Width="5" />
@@ -290,7 +290,9 @@
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center" Foreground="White" />
-                    </Grid>
+
+                    <Button Name="AddNewTab" Click="AddNewTab_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.ColumnSpan="3"/>
+                </Grid>
 
 
 

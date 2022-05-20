@@ -108,14 +108,14 @@ namespace Electricity_Subscriber.Layouts
             }
 
 
-            if (System.IO.File.Exists("Printer") == false)
+            if (System.IO.File.Exists("Printer.dll") == false)
             {
-                System.IO.File.WriteAllText("Printer", "");
+                System.IO.File.WriteAllText("Printer.dll", "");
             }
 
-            else if (System.IO.File.Exists("Printer"))
+            else if (System.IO.File.Exists("Printer.dll"))
             {
-                txtPrinter.Text = System.IO.File.ReadAllText("Printer");
+                txtPrinter.Text = System.IO.File.ReadAllText("Printer.dll");
             }
 
             ////System.Data.DataView Dv = new System.Data.DataView(DTChecks);
@@ -131,15 +131,70 @@ namespace Electricity_Subscriber.Layouts
 
         }
 
-       
-     
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void Print(Visual v)
         {
-            
+            System.IO.File.WriteAllText("Printer.dll", txtPrinter.Text);
+
+            System.Windows.FrameworkElement e = v as System.Windows.FrameworkElement;
+            if (e == null)
+                return;
+
+            PrintDialog pd = new PrintDialog();
+          //store original scale
+                Transform originalScale = e.LayoutTransform;
+                //get selected printer capabilities
+                System.Printing.PrintCapabilities capabilities = pd.PrintQueue.GetPrintCapabilities(pd.PrintTicket);
+
+                //get scale of the print wrt to screen of WPF visual
+                double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / e.ActualWidth, capabilities.PageImageableArea.ExtentHeight /
+                               e.ActualHeight);
+
+                //Transform the Visual to scale
+                e.LayoutTransform = new ScaleTransform(scale, scale);
+
+                //get the size of the printer page
+                System.Windows.Size sz = new System.Windows.Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
+
+                //update the layout of the visual to the printer page size.
+                e.Measure(sz);
+                e.Arrange(new System.Windows.Rect(new System.Windows.Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight), sz));
+
+
+                PrintQueue queue = new LocalPrintServer().GetPrintQueue(txtPrinter.Text);
+
+                pd.PrintQueue = queue;
+
+
+                //now print the visual to printer to fit on the one page.
+                pd.PrintVisual(v, "My Print");
+
+                //apply the original transform.
+                e.LayoutTransform = originalScale;
+
+            this.Close();
+
+        }
+
+
+
+
+
+
+
+
+
+
+        private void PrintBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+          
+            Print(MainGrid);
+
+            return;
             try
             {
 
-                System.IO.File.WriteAllText("Printer", txtPrinter.Text);
+                System.IO.File.WriteAllText("Printer.dll", txtPrinter.Text);
 
                 PrintDialog printDialog = new PrintDialog();
                 PrintQueue queue = new LocalPrintServer().GetPrintQueue(txtPrinter.Text);
@@ -207,18 +262,6 @@ namespace Electricity_Subscriber.Layouts
             xpsdw.Write(adjustedVisual);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+       
     }
 }

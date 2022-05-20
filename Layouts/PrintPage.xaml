@@ -3,163 +3,272 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Electricity_Subscriber.Layouts" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Electricity_Subscriber.Layouts"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="PrintPage" 
-        
-       WindowStartupLocation="CenterScreen"
+        Title="PrintPage"
+        WindowStartupLocation="CenterScreen"
         Background="White"
         Width="900"
+        WindowState="Maximized"
         >
-   
-        <Grid>
+
+    <Grid>
 
 
-        <ScrollViewer Name="MainGrid"  VerticalScrollBarVisibility="Hidden">
-
-      
-        <Border  CornerRadius="10"  Margin="2" Padding="2" BorderBrush="Black" BorderThickness="0">
-            <StackPanel Margin="5,0" >
-                <Grid Height="60" Margin="0,0,0,10" Background="White">
-                  
-
-                    <Grid FlowDirection="RightToLeft" HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="نوع الاشتراك :" FontSize="20" HorizontalAlignment="Center" FontWeight="Normal"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1"  Margin="10,0" Name="lblTypeAccount"  FontSize="20" HorizontalAlignment="Center" FontWeight="Normal"/>
-
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="الشهر :" FontSize="20" HorizontalAlignment="Center" FontWeight="Normal"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontWeight="Bold" Margin="10,0" Name="lblMonthSelected"  FontSize="20" HorizontalAlignment="Center"/>
+        <ScrollViewer Name="MainGrid"
+                      VerticalScrollBarVisibility="Hidden">
 
 
+            <Border  CornerRadius="10"
+                     Margin="2"
+                     Padding="2"
+                     BorderBrush="Black"
+                     BorderThickness="0">
+                <StackPanel Width="874" Margin="5,0">
+                    <Grid Height="60"
+                          Margin="0,0,0,10"
+                          Background="White">
+
+
+                        <Grid FlowDirection="RightToLeft"
+                              HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="نوع الاشتراك :"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Normal" />
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="1"
+                                       Margin="10,0"
+                                       Name="lblTypeAccount"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Normal" />
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Text="الشهر :"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Normal" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="1"
+                                       FontWeight="Bold"
+                                       Margin="10,0"
+                                       Name="lblMonthSelected"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center" />
+
+
+
+                        </Grid>
 
                     </Grid>
+                    <ListView Height="50"
+                              FlowDirection="RightToLeft"
+                              x:Name="lbEurInsureType">
+                        <ListView.Template>
+                            <ControlTemplate>
+                                <materialDesign:Card FontSize="15">
 
-                </Grid>
-                <ListView Height="50" FlowDirection="RightToLeft"  x:Name="lbEurInsureType" >
-                    <ListView.Template>
-                        <ControlTemplate>
-                            <materialDesign:Card FontSize="15">
 
+                                    <DockPanel LastChildFill="True">
 
-                                <DockPanel LastChildFill="True" >
-
-                                    <Grid Height="50"  VerticalAlignment="Center"  DockPanel.Dock="Top" >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="85"/>
-                                            <ColumnDefinition Width="85"/>
-                                            <ColumnDefinition Width="85"/>
+                                        <Grid Height="50"
+                                              VerticalAlignment="Center"
+                                              DockPanel.Dock="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="140"/>
+                                                <ColumnDefinition  Width="100"/>
                                                 <ColumnDefinition Width="100" />
+                                                <ColumnDefinition  Width="100"/>
+                                                <ColumnDefinition  Width="100"/>
+                                                <ColumnDefinition Width="50" />
+                                              
                                                 <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100" />
+                                                <!--<ColumnDefinition Width="100" />-->
+
+                                            </Grid.ColumnDefinitions>
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="0"
+                                                   Content="المشترك" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="1"
+                                                   Content="رقم الاشتراك" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="2"
+                                                   Content="القيمة الاشتراك" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="3"
+                                                   Content="تسديد فاتورة" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="4"
+                                                   Content="باقي الفاتورة" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="5"
+                                                   Content="كلفة" />
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="6"
+                                                   Content="حالة الدفع" />
+                                          
+                                            <Label FontWeight="Normal"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Grid.Column="7"
+                                                   Content="رصيد سابق"
+                                                   Foreground="Red" />
+
+
+                                        </Grid>
+                                        <ItemsPresenter />
+                                    </DockPanel>
+                                </materialDesign:Card>
+                            </ControlTemplate>
+                        </ListView.Template>
+
+                    </ListView>
+                    <ItemsControl Margin="0,5,0,0"
+                                  Name="listprint"
+                                  FlowDirection="RightToLeft">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="0,2"
+                                                     Padding="5"
+                                                     FontSize="15">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="140" />
+                                            <ColumnDefinition  Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition  Width="100" />
+                                            <ColumnDefinition  Width="100" />
+                                            <ColumnDefinition Width="50" />
+
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+
 
                                         </Grid.ColumnDefinitions>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center"  Grid.Column="0" Content="المشترك"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="1" Content="رقم الاشتراك"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="2" Content="القيمة الاشتراك"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="3" Content="تسديد فاتورة"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="4" Content="باقي الفاتورة"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="5" Content="كلفة"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="6" Content="حالة الدفع"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="7" Content="طريقة الدفع"/>
-                                        <Label FontWeight="Normal" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Grid.Column="8" Content="رصيد سابق" Foreground="Red"  />
+                                        <TextBlock Text="{Binding NameSubscriber}"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Column="0"
+                                                  />
+                                        <TextBlock Text="{Binding NumberSubscriber}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="1"
+                                                   />
+                                        <TextBlock Text="{Binding BillAmount}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="2"
+                                                    />
+                                        <TextBlock Text="{Binding PaidAmount}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="3"
+                                                    />
+                                        <TextBlock Text="{Binding TotalAmount}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="4"
+                                                   />
 
+                                        <TextBlock  HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Grid.Column="5"
+                                                   >
+                                        <Run Text="|" />
+                                         <Run Text="{Binding SysCostID}"
+                                              FontWeight="Normal"
+                                              Foreground="DodgerBlue" />
+                                         <Run Text="|" />
+                                        </TextBlock>
+
+
+                                        <TextBlock Text="{Binding SubscriberPaid}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="6"
+                                                   />
+                                      
+                                        <TextBlock Text="{Binding PreviousAmount}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Grid.Column="7"
+                                                   Foreground="Red"
+                                                    />
 
                                     </Grid>
-                                    <ItemsPresenter/>
-                                </DockPanel>
-                            </materialDesign:Card>
-                        </ControlTemplate>
-                    </ListView.Template>
 
-                </ListView>
-                <ItemsControl Margin="0,5,0,0" Name="listprint" FlowDirection="RightToLeft" >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card Margin="0,2" Padding="5" FontSize="15">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition MaxWidth="250"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="85"/>
-                                        <ColumnDefinition Width="85"/>
-                                        <ColumnDefinition Width="85"/>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
 
-
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding NameSubscriber}" HorizontalAlignment="Center"  Grid.Column="0" TextWrapping="Wrap" />
-                                    <TextBlock Text="{Binding NumberSubscriber}" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="1" TextWrapping="Wrap" />
-                                    <TextBlock Text="{Binding BillAmount}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding PaidAmount}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding TotalAmount}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="4" TextWrapping="Wrap"/>
-
-                                    <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="5" TextWrapping="Wrap">
-                                        <Run Text="|"/>
-                                         <Run Text="{Binding SysCostID}" FontWeight="Normal" Foreground="DodgerBlue"/>
-                                         <Run Text="|"/>
-                                    </TextBlock>
-
-
-                                    <TextBlock Text="{Binding SubscriberPaid}" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="6" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding PaidMethod}" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="7" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding PreviousAmount}" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Column="8" Foreground="Red" TextWrapping="Wrap"/>
-
-                                </Grid>
-
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-
-        </Border>
+            </Border>
 
         </ScrollViewer>
-        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button HorizontalAlignment="Left"
-                        
-                        VerticalAlignment="Top"
-                        Click="Button_Click">
-                    <materialDesign:PackIcon Kind="Printer" />
-                </Button>
+        <StackPanel Orientation="Horizontal"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                   Click="PrintBtn_Click"
+                    Name="PrintBtn">
+                <materialDesign:PackIcon Kind="Printer" />
+            </Button>
 
-                <Grid Width="10"/>
+            <Grid Width="10" />
 
-                <materialDesign:Card  FlowDirection="RightToLeft"
-                                      Margin="10,3"
-                                      BorderThickness="1"
-                                      BorderBrush="White"
-                                      Padding="10,0">
-                    <ComboBox  Background="White"
-                               MinWidth="100"
-                               VerticalContentAlignment="Center"
-                               Foreground="Black"
-                               FontSize="15"
-                               Name="txtPrinter" />
-                </materialDesign:Card>
+            <materialDesign:Card  FlowDirection="RightToLeft"
+                                  Margin="10,3"
+                                  BorderThickness="1"
+                                  BorderBrush="White"
+                                  Padding="10,0">
+                <ComboBox  Background="White"
+                           MinWidth="100"
+                           VerticalContentAlignment="Center"
+                           Foreground="Black"
+                           FontSize="15"
+                           Name="txtPrinter" />
+            </materialDesign:Card>
 
-            </StackPanel>
-           
+        </StackPanel>
 
-        </Grid>
-    
-  
-  
+
+    </Grid>
+
+
+
 </Window>

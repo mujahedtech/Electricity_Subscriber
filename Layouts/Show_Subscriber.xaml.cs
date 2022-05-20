@@ -1,11 +1,15 @@
 ﻿using Electricity_Subscriber.CL;
+using HtmlAgilityPack;
+using mshtml;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,9 +44,13 @@ namespace Electricity_Subscriber.Layouts
 
         string SubscriberSelected = "";
 
+
         public Show_Subscriber(string subscriberselected = "")
         {
             InitializeComponent();
+
+
+
 
 
             BW.DoWork += BW_DoWork;
@@ -61,12 +69,14 @@ namespace Electricity_Subscriber.Layouts
 
 
 
-           
+
             LoadedPrepare();
         }
 
 
         System.Data.DataTable DT = new System.Data.DataTable();
+
+
 
         DataTable UpdateList(string SQLCOmmand)
         {
@@ -88,6 +98,13 @@ namespace Electricity_Subscriber.Layouts
 
 
 
+
+
+        string Path = "https://www.ideco.com.jo/portal/WebForms/SubscriberReceivableLinks.aspx";
+
+        System.Windows.Forms.WebBrowser browser1;
+
+
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
 
@@ -97,8 +114,333 @@ namespace Electricity_Subscriber.Layouts
 
             Datagrid1.ItemsSource = UpdateList(SQLCommand).DefaultView;
 
+            gridview.Visibility = Visibility.Visible;
+
+            MovetoRowDataGridByIndex(0);
+
+
+            AcceptRun = false;
+
+            browser1 = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
+
+            browser1.Navigate(new Uri(Path));
+
+
+            browser1.DocumentCompleted += Browser1_DocumentCompleted;
+          
 
         }
+
+        private void Browser1_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+        {
+
+            if (AcceptRun)
+            {
+                
+
+                
+
+                string month = txtMonth.Text;
+                if (month.Length == 1)
+                {
+                    month = "0" + month;
+                }
+
+                DataTable dt = GetPaidTest(browser1.DocumentText);
+                dt.Merge(GetUnPaidTest(browser1.DocumentText));
+
+
+                double BillAmount = string.IsNullOrEmpty(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
+                double PaidAmount = string.IsNullOrEmpty(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
+                double PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>{txtYear.Text}/{month}").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>{txtYear.Text}/{month}").ToString());
+
+
+
+                DT.Rows[Datagrid1.SelectedIndex]["BillAmount"] = BillAmount;
+                DT.Rows[Datagrid1.SelectedIndex]["PaidAmount"] = PaidAmount;
+                DT.Rows[Datagrid1.SelectedIndex]["TotalAmount"] = BillAmount - PaidAmount;
+                DT.Rows[Datagrid1.SelectedIndex]["PreviousAmount"] = PreviousAmount;
+
+
+
+                Datagrid1.ItemsSource = DT.DefaultView;
+
+
+                if (Datagrid1.SelectedIndex+1 == DT.Rows.Count)
+                {
+                    DT.Rows.Add(null, null, "مجموع", "", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
+                    gridview.Visibility = Visibility.Collapsed;
+                    return;
+                }
+
+                MovetoRowDataGridByIndex(Datagrid1.SelectedIndex + 1);
+
+
+
+
+
+                browser1.Navigate(new Uri(Path));
+
+                txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
+
+              
+
+                AcceptRun = false;
+            }
+
+            else
+            {
+
+                HTMLDocument dom = (HTMLDocument)browser1.Document.DomDocument;
+                object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
+                if (ie != null)
+                {
+                    if (ie is IHTMLInputElement)
+                    {
+                        ((IHTMLInputElement)ie).value = DT.Rows[Datagrid1.SelectedIndex]["NumberSubscriber"].ToString();
+                    }
+                }
+
+                object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
+
+                browser1.Document.InvokeScript("__doPostBack", args);
+
+                AcceptRun = true;
+            }
+
+
+
+
+        }
+
+
+
+
+
+        private void WebView_Click(object sender, RoutedEventArgs e)
+        {
+            if (DT.Rows.Count > 0)
+            {
+                Window View = new Window();
+
+                View.WindowState = WindowState.Maximized;
+
+                View.Content = browser1;
+
+
+
+
+                var web1 = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
+
+                web1.Navigate(new Uri(Path));
+
+                HTMLDocument dom = (HTMLDocument)browser1.Document.DomDocument;
+                object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
+                if (ie != null)
+                {
+                    if (ie is IHTMLInputElement)
+                    {
+                        ((IHTMLInputElement)ie).value = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)]["NumberSubscriber"].ToString();
+                    }
+                }
+
+                object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
+
+                web1.Document.InvokeScript("__doPostBack", args);
+
+                View.ShowDialog();
+            }
+        }
+
+
+
+
+
+        bool AcceptRun = false;
+
+        private void Browser1_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
+        {
+            //         var FillData = new Progress<int>(
+            //   ValueProgress =>
+            //   {
+            //       if (AcceptRun) return;
+            //       System.IO.File.WriteAllText("mujahed.txt", browser1.DocumentText);
+
+            //       System.Diagnostics.Process.Start("notepad", "mujahed");
+
+
+
+            //       AcceptRun = true;
+            //   });
+
+
+            //         var PassingCommand = new Progress<int>(
+            //ValueProgress =>
+            //{
+
+            //    HTMLDocument dom = (HTMLDocument)browser1.Document.DomDocument;
+            //    object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
+            //    if (ie != null)
+            //    {
+            //        if (ie is IHTMLInputElement)
+            //        {
+            //            ((IHTMLInputElement)ie).value = id;
+            //        }
+            //    }
+
+
+
+            //    object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
+
+
+
+            //    browser1.Document.InvokeScript("__doPostBack", args);
+
+            //    Task.Run(() => { HideProgress(50, FillData); });
+
+            //});
+
+            //         await Task.Run(() => { HideProgress(10, PassingCommand); });
+        }
+
+
+        DataTable TablePayment;
+        private static readonly Regex sWhitespace = new Regex(@"\s+");
+        public static string ReplaceWhitespace(string input, string replacement = "")
+        {
+            return sWhitespace.Replace(input, replacement);
+        }
+        public DataTable GetPaidTest(string hmtl = "")
+        {
+
+            HtmlDocument doc = new HtmlDocument();
+
+            TablePayment = new DataTable();
+
+
+            doc.LoadHtml(hmtl);
+
+            var m = doc.DocumentNode.SelectSingleNode("//table[@id='ContentPlaceHolder1_gvInvoices']");
+
+            if (m != null)
+            {
+                doc.LoadHtml(m.InnerHtml);
+
+                var headers = doc.DocumentNode.SelectNodes("//tr/th");
+
+                foreach (HtmlNode header in headers)
+
+                    if (header.InnerText == "قيمة الفاتورة" || header.InnerText == "القيمة المسددة" || header.InnerText == "القيمة المطلوبة")
+                    {
+                        TablePayment.Columns.Add(header.InnerText, typeof(double));
+                    }
+                    else
+                    {
+                        TablePayment.Columns.Add(header.InnerText);
+                    }  // create columns from th
+                       // select rows with td elements 
+                foreach (var row in doc.DocumentNode.SelectNodes("//tr[td]"))
+                    TablePayment.Rows.Add(row.SelectNodes("td").Select(td => ReplaceWhitespace(td.InnerText.Trim())).ToArray());
+
+
+
+                TablePayment.Columns.Remove("&nbsp;");
+
+                //TablePayment.Columns.Remove("كمية الاستهلاك المحتسبة");
+                //TablePayment.Columns.Remove("القيمة المطلوبة");
+
+                //TablePayment.Columns["شهر الإصدار"].ColumnName = "Date";
+
+
+                TablePayment.Columns["قيمة الفاتورة"].ColumnName = "BillAmount";
+                TablePayment.Columns["شهر الإصدار"].ColumnName = "DateBill";
+
+                TablePayment.Columns["القيمة المسددة"].ColumnName = "PaidAmount";
+                TablePayment.Columns["تاريخ التسديد"].ColumnName = "PaidDate";
+                TablePayment.Columns["القيمة المطلوبة"].ColumnName = "RequiredAmount";
+            }
+
+
+
+
+            return TablePayment;
+        }
+
+        public DataTable GetUnPaidTest(string hmtl)
+        {
+
+            HtmlDocument doc = new HtmlDocument();
+
+
+
+
+            doc.LoadHtml(hmtl);
+
+            var m = doc.DocumentNode.SelectSingleNode("//table[@id='ContentPlaceHolder1_gvUnpayedInvoices']");
+
+            TablePayment = new DataTable();
+
+            if (m != null)
+            {
+                doc.LoadHtml(m.InnerHtml);
+
+                var headers = doc.DocumentNode.SelectNodes("//tr/th");
+
+                foreach (HtmlNode header in headers)
+
+                    if (header.InnerText == "قيمة الفاتورة" || header.InnerText == "القيمة المطلوبة")
+                    {
+                        TablePayment.Columns.Add(header.InnerText, typeof(double));
+                    }
+                    else
+                    {
+                        TablePayment.Columns.Add(header.InnerText);
+                    }  // create columns from th
+                       // select rows with td elements 
+                foreach (var row in doc.DocumentNode.SelectNodes("//tr[td]"))
+                    TablePayment.Rows.Add(row.SelectNodes("td").Select(td => ReplaceWhitespace(td.InnerText.Trim())).ToArray());
+
+
+
+                TablePayment.Columns.Remove("&nbsp;");
+
+                //TablePayment.Columns.Remove("كمية الاستهلاك المحتسبة");
+                //TablePayment.Columns.Remove("القيمة المطلوبة");
+
+                //TablePayment.Columns["قيمة الفاتورة"].ColumnName = "Total";
+
+
+                TablePayment.Columns["شهر الإصدار"].ColumnName = "DateBill";
+
+
+                TablePayment.Columns["تاريخ التسديد"].ColumnName = "PaidDate";
+                TablePayment.Columns["قيمة الفاتورة"].ColumnName = "BillAmount";
+                TablePayment.Columns["القيمة المطلوبة"].ColumnName = "RequiredAmount";
+
+
+            }
+
+            return TablePayment;
+        }
+
+        void HideProgress(int Time, IProgress<int> progress)
+        {
+
+            System.Threading.Thread.Sleep(Time * 100);
+            progress.Report(0);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
         string URL = "";
@@ -150,7 +492,7 @@ namespace Electricity_Subscriber.Layouts
 
         System.ComponentModel.BackgroundWorker BW = new System.ComponentModel.BackgroundWorker();
 
-        CL.Electric mujahed;
+
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             if (BW.IsBusy == false)
@@ -191,7 +533,7 @@ namespace Electricity_Subscriber.Layouts
             IsEnabled = true;
 
 
-            DT.Rows.Add(null, null, "مجموع","", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
+            DT.Rows.Add(null, null, "مجموع", "", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
 
             txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
 
@@ -401,79 +743,7 @@ namespace Electricity_Subscriber.Layouts
         CL.ElectricData electricData;
         private void BW_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            for (int i = 0; i < DT.Rows.Count; i++)
-            {
-                DT.Rows[i]["TotalAmount"] = 0;
 
-                if (DT.Rows[i]["NoteSubscriber"].ToString() != "false" && DT.Rows[i]["NoteSubscriber"].ToString() != "delete")
-                {
-                    electricData = new CL.ElectricData(GenerateURL(DT.Rows[i]["NumberSubscriber"].ToString(), Month, Year));
-
-                    DT.Rows[i]["BillAmount"] = electricData.BillAmount;
-
-                    DT.Rows[i]["PaidAmount"] = electricData.PaidAmount;
-                    DT.Rows[i]["TotalAmount"] = electricData.TotalAmount;
-                    DT.Rows[i]["SubscriberPaid"] = electricData.PaymentNote;
-
-
-                    DT.Rows[i]["PaidMethod"] = electricData.PaymentMethod;
-
-
-                    DT.Rows[i]["PreviousAmount"] = electricData.PreviousAmount;
-
-
-                    if (false)
-                    {
-                        double Bill = double.Parse(mujahed.GetDinarCurrent() + "." + mujahed.GetFilesCurrent());
-                        double paid = 0;
-
-
-                        DT.Rows[i]["BillAmount"] = Bill;
-
-                        DT.Rows[i]["PaidAmount"] = 0;
-                        DT.Rows[i]["TotalAmount"] = 0;
-                        DT.Rows[i]["SubscriberPaid"] = "لا يوجد فاتورة";
-
-                        if (Bill != 0)
-                        {
-                            DT.Rows[i]["SubscriberPaid"] = "غير مدفوع";
-                        }
-
-
-                        DT.Rows[i]["PaidMethod"] = mujahed.GetPaidMethod();
-
-
-
-                        if (mujahed.GetPaidState())
-                        {
-                            paid = double.Parse(mujahed.GetPaidAmount());
-                            DT.Rows[i]["PaidAmount"] = paid;
-                            DT.Rows[i]["TotalAmount"] = Bill - paid;
-                            DT.Rows[i]["SubscriberPaid"] = "مدفوع" + "--" + mujahed.GetPaidDate();
-                        }
-                        DT.Rows[i]["TotalAmount"] = Bill - paid;
-
-                        string Cost = mujahed.GetDinar().ToString() + "." + mujahed.GetFiles().ToString();
-                    }
-
-
-
-
-                    MovetoRowDataGridByIndex(i);
-
-                    BW.ReportProgress(i);
-
-
-
-                }
-
-
-
-
-
-
-
-            }
         }
 
         private void ExcelFile_Click(object sender, RoutedEventArgs e)
@@ -563,13 +833,45 @@ namespace Electricity_Subscriber.Layouts
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
-            if (DT.Rows.Count>0)
+            if (DT.Rows.Count > 0)
             {
-               
+                var Print = new Layouts.PrintPage(txtType.Text, txtMonth.Text + "/" + txtYear.Text, DT);
 
-                new Layouts.PrintPage(txtType.Text, txtMonth.Text + "/" + txtYear.Text, DT).Show();
+                var index = ((Button)e.Source).Uid;
+
+                Print.Owner = MainWindow.Main;
+
+                switch (index)
+                {
+                    case "PrintPreview":
+
+                        Print.Show();
+
+                        break;
+
+                    case "Printer":
+                        Print.Visibility = Visibility.Hidden;
+
+                        Print.Show();
+
+
+
+                        Print.Print(Print.MainGrid);
+
+                        Print.Close();
+
+                        break;
+
+                }
+
+
+
+
+
+
+
             }
-           
+
 
 
 
@@ -586,7 +888,7 @@ namespace Electricity_Subscriber.Layouts
         {
             if (DT.Rows.Count > 0)
             {
-                string ID = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][2].ToString();
+                string ID = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][3].ToString();
                 string SubName = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][1].ToString();
                 foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
                 {
@@ -643,42 +945,56 @@ namespace Electricity_Subscriber.Layouts
             FirstRun = true;
         }
 
+        private void btnPreview_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
 
         private void datagridview1_LoadingRow_1(object sender, DataGridRowEventArgs e)
         {
             // Get the DataRow corresponding to the DataGridRow that is loading.
             System.Data.DataRowView item = e.Row.Item as System.Data.DataRowView;
-
-            if (item != null)
+            try
             {
-                System.Data.DataRow row = item.Row;
-                // Access cell values values if needed...
-                var colValue = row["NoteSubscriber"];
-
-                if (colValue.ToString() == "false")
+                if (item != null)
                 {
+                    System.Data.DataRow row = item.Row;
+                    // Access cell values values if needed...
+                    var colValue = row["NoteSubscriber"];
 
-                    e.Row.Background = Brushes.Green;
-                }
-                else if (colValue.ToString() == "delete")
-                {
+                    if (colValue.ToString() == "false")
+                    {
 
-                    e.Row.Background = Brushes.Red;
-                }
-                else if (colValue.ToString() == "")
-                {
+                        e.Row.Background = Brushes.Green;
+                    }
+                    else if (colValue.ToString() == "delete")
+                    {
 
-                    e.Row.Background = Brushes.WhiteSmoke;
-                }
-                else if (colValue.ToString() == "Favorites")
-                {
+                        e.Row.Background = Brushes.Red;
+                    }
+                    else if (colValue.ToString() == "")
+                    {
 
-                    e.Row.Foreground = Brushes.White;
-                    e.Row.Background = Brushes.DodgerBlue;
+                        e.Row.Background = Brushes.WhiteSmoke;
+                    }
+                    else if (colValue.ToString() == "Favorites")
+                    {
+
+                        e.Row.Foreground = Brushes.White;
+                        e.Row.Background = Brushes.DodgerBlue;
+                    }
+
                 }
 
             }
+            catch (Exception)
+            {
+
+
+            }
+
         }
     }
 }

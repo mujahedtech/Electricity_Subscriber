@@ -40,15 +40,20 @@ namespace Electricity_Subscriber
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
+        public static MainWindow Main;
+
         public MainWindow()
         {
             InitializeComponent();
             //GridPass.Visibility = Visibility.Visible;
             FrameMain.NavigationService.Navigate(new Layouts.Home());
 
+            Main = this;
+
 
            
-            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ar-JO");
 
 
             CL.Pass.DataTable = new System.Data.DataTable();
@@ -61,9 +66,24 @@ namespace Electricity_Subscriber
 
             DataContext = this;
 
-           
-
+            Loaded += MainWindow_Loaded;
+          
         }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Languagecombo.SelectedIndex == 0)
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ar-JO");
+
+            }
+            else if (Languagecombo.SelectedIndex == 1)
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
+            }
+        }
+
         public ObservableCollection<Orders> OrdersList { get; set; } = new ObservableCollection<Orders>();
 
 
@@ -181,7 +201,7 @@ namespace Electricity_Subscriber
 
             GridCursor.Margin = new Thickness(0 + (Width * index), 0, 0, 0);
 
-            UserControl usc = null;
+           
 
             GridMain.Children.Clear();
             switch (index)
@@ -328,13 +348,33 @@ namespace Electricity_Subscriber
 
         private void Languagecombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
+
+           
+
             if (Languagecombo.SelectedIndex==0)
             {
                 System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ar-JO");
-                return;
+              
             }
-            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+           else if (Languagecombo.SelectedIndex == 1)
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
+            }
+
+
+            //to get selected item text
+
+            //ComboBoxItem typeItem = (ComboBoxItem)Languagecombo.SelectedItem;
+            //string value = typeItem.Content.ToString();
+
+            //MessageBox.Show(value);
+
         }
+
+      
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

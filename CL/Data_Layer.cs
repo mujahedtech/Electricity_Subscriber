@@ -75,7 +75,7 @@ namespace Electricity_Subscriber.CL
                 Command.ExecuteNonQuery();
                 Sqlconnection.Close();
             }
-            catch (System.Exception m)
+            catch (Exception)
             {
               
 

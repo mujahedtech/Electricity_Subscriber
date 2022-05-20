@@ -52,7 +52,7 @@ namespace Electricity_Subscriber.CL
 
                 PaymentDate = TablePayment.Rows[0][0].ToString();
 
-                PaymentNote = "مدفوع"+"--"+ PaymentDate;
+                PaymentNote =/* "مدفوع"+"--"+*/ PaymentDate;
             }
 
 

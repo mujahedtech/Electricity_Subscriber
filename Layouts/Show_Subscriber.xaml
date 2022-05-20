@@ -49,6 +49,57 @@ FlowDirection="RightToLeft"
             </Style>
 
 
+            <Style TargetType="{x:Type Button}"
+                   x:Key="BtnPrintPreview">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"
+                                    CornerRadius="10"
+                                    Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Cursor"
+                                                        Value="Hand" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Center"
+                                                             Margin="2"
+                                                             Foreground="White"
+                                                             Height="40"
+                                                             Width="40"
+                                                             Kind="PrintPreview" />
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Text="{TemplateBinding Content}"
+                                               Foreground="White"
+                                               FontSize="15"
+                                               FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+
             <Style TargetType="{x:Type Button}" x:Key="BtnSearch">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -217,8 +268,24 @@ FlowDirection="RightToLeft"
 
                         </materialDesign:Card>
 
+
+                          
+
+                            <Button Margin="10 0"
+                                    Uid="PrintPreview"
+                                    Content="عرض"
+                                    Style="{StaticResource BtnPrintPreview}"
+                                 Click="Print_Click"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                            </Button>
+
                             <Button Uid="Printer" Content="طباعة"  Style="{StaticResource BtnPrint}" Click="Print_Click" HorizontalAlignment="Right"   VerticalAlignment="Center" >
                             </Button>
+
+
+                          
+
                         </StackPanel>
 
                     <DataGrid Foreground="Black"  MouseDoubleClick="Datagrid1_MouseDoubleClick" MinWidth="900"   LoadingRow="datagridview1_LoadingRow_1" Visibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Disabled"    Name="Datagrid1" Grid.Row="2"  IsReadOnly="True" >
@@ -239,6 +306,12 @@ FlowDirection="RightToLeft"
                                 <Separator />
 
                                     <MenuItem Header="تفصيلي" Name="CustomReport" Click="CustomReport_Click" />
+
+                                    <Separator />
+
+                                    <MenuItem Header="عرض ويب"
+                                              Name="WebView"
+                                              Click="WebView_Click" />
 
                                 </ContextMenu>
 
@@ -314,6 +387,8 @@ FlowDirection="RightToLeft"
       
 
     </Grid>
+
+      
 
     </Grid>
 
