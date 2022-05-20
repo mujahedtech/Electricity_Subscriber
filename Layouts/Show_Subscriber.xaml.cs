@@ -50,6 +50,14 @@ namespace Electricity_Subscriber.Layouts
             InitializeComponent();
 
 
+            string ToolTipSearch = "";
+
+            ToolTipSearch += "لعرض الحذف اكتب 'delete'" + Environment.NewLine;
+            ToolTipSearch += "لعرض المفضلة اكتب '*'" + Environment.NewLine;
+            ToolTipSearch += "لعرض الكل اترك فارغ " + Environment.NewLine;
+
+
+            txtSearch.ToolTip = ToolTipSearch;
 
 
 
@@ -108,7 +116,13 @@ namespace Electricity_Subscriber.Layouts
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
 
+            SQLCommand = $"TypeSubscriber like '{txtType.Text}' AND NoteSubscriber <> 'delete'";
 
+            Datagrid1.ItemsSource = UpdateList(SQLCommand).DefaultView;
+
+        }
+        private void fastSearch_Click(object sender, RoutedEventArgs e)
+        {
 
             SQLCommand = $"TypeSubscriber like '{txtType.Text}' AND NoteSubscriber <> 'delete'";
 
@@ -127,10 +141,14 @@ namespace Electricity_Subscriber.Layouts
 
 
             browser1.DocumentCompleted += Browser1_DocumentCompleted;
-          
+
+
+
+            //StartFastSearch();
 
         }
 
+        bool AcceptRun = false;
         private void Browser1_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
 
@@ -149,11 +167,36 @@ namespace Electricity_Subscriber.Layouts
                 DataTable dt = GetPaidTest(browser1.DocumentText);
                 dt.Merge(GetUnPaidTest(browser1.DocumentText));
 
+                double PaidAmount = 0;
+                if (dt.Columns.Contains("PaidAmount"))
+                {
+                    PaidAmount = string.IsNullOrEmpty(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
+
+                }
 
                 double BillAmount = string.IsNullOrEmpty(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
-                double PaidAmount = string.IsNullOrEmpty(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
-                double PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>{txtYear.Text}/{month}").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>{txtYear.Text}/{month}").ToString());
+                double PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString());
 
+                DataView dv = new DataView(dt);
+
+                dv.RowFilter = $"DateBill='{txtYear.Text}/{month}'";
+
+                string PaidDate = "";
+                if (dv.ToTable().Rows.Count>0)
+                {
+                    PaidDate = dv.ToTable().Rows[0]["PaidDate"].ToString();
+                }
+                 
+
+
+
+
+                DT.Rows[Datagrid1.SelectedIndex]["SubscriberPaid"] = PaidDate;
+
+                if (PaidDate== "مسددة")
+                {
+                    PaidAmount = BillAmount;
+                }
 
 
                 DT.Rows[Datagrid1.SelectedIndex]["BillAmount"] = BillAmount;
@@ -163,27 +206,44 @@ namespace Electricity_Subscriber.Layouts
 
 
 
+               
+
+
+
+
+
                 Datagrid1.ItemsSource = DT.DefaultView;
 
 
                 if (Datagrid1.SelectedIndex+1 == DT.Rows.Count)
                 {
+                  
+                    txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
+                    txtTotalBill.Text = DT.Compute("Sum(BillAmount)", "").ToString();
+
+
+
                     DT.Rows.Add(null, null, "مجموع", "", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
+
+                  
+
+
                     gridview.Visibility = Visibility.Collapsed;
                     return;
                 }
 
                 MovetoRowDataGridByIndex(Datagrid1.SelectedIndex + 1);
 
-
+                Datagrid1.ScrollIntoView(Datagrid1.SelectedItem);
 
 
 
                 browser1.Navigate(new Uri(Path));
 
                 txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
+               
 
-              
+
 
                 AcceptRun = false;
             }
@@ -217,92 +277,73 @@ namespace Electricity_Subscriber.Layouts
 
 
 
+        System.Windows.Forms.WebBrowser WebViewBrowser;
+        Window View;
+        bool Completeload = false;
         private void WebView_Click(object sender, RoutedEventArgs e)
         {
             if (DT.Rows.Count > 0)
             {
-                Window View = new Window();
 
-                View.WindowState = WindowState.Maximized;
+                WebViewBrowser = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
 
-                View.Content = browser1;
+                WebViewBrowser.Navigate(new Uri(Path));
 
+                WebViewBrowser.DocumentCompleted += WebViewBrowser_DocumentCompleted; ;
 
-
-
-                var web1 = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
-
-                web1.Navigate(new Uri(Path));
-
-                HTMLDocument dom = (HTMLDocument)browser1.Document.DomDocument;
-                object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
-                if (ie != null)
-                {
-                    if (ie is IHTMLInputElement)
-                    {
-                        ((IHTMLInputElement)ie).value = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)]["NumberSubscriber"].ToString();
-                    }
-                }
-
-                object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
-
-                web1.Document.InvokeScript("__doPostBack", args);
-
-                View.ShowDialog();
+             
             }
         }
 
-
-
-
-
-        bool AcceptRun = false;
-
-        private void Browser1_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
+        private void WebViewBrowser_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
-            //         var FillData = new Progress<int>(
-            //   ValueProgress =>
-            //   {
-            //       if (AcceptRun) return;
-            //       System.IO.File.WriteAllText("mujahed.txt", browser1.DocumentText);
-
-            //       System.Diagnostics.Process.Start("notepad", "mujahed");
+            if (Completeload == true)
+            {
+                View = new Window();
 
 
+                Grid grid = new Grid();
 
-            //       AcceptRun = true;
-            //   });
-
-
-            //         var PassingCommand = new Progress<int>(
-            //ValueProgress =>
-            //{
-
-            //    HTMLDocument dom = (HTMLDocument)browser1.Document.DomDocument;
-            //    object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
-            //    if (ie != null)
-            //    {
-            //        if (ie is IHTMLInputElement)
-            //        {
-            //            ((IHTMLInputElement)ie).value = id;
-            //        }
-            //    }
+                System.Windows.Forms.Integration.WindowsFormsHost formsHost = new System.Windows.Forms.Integration.WindowsFormsHost();
 
 
-
-            //    object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
-
+                formsHost.Child = WebViewBrowser;
 
 
-            //    browser1.Document.InvokeScript("__doPostBack", args);
+                grid.Children.Add(formsHost);
 
-            //    Task.Run(() => { HideProgress(50, FillData); });
+                //View.ShowInTaskbar = false;
 
-            //});
+                View.Content = grid;
 
-            //         await Task.Run(() => { HideProgress(10, PassingCommand); });
+                View.WindowState = WindowState.Maximized;
+
+                View.ShowDialog();
+
+                return;
+            }
+
+            HTMLDocument dom = (HTMLDocument)WebViewBrowser.Document.DomDocument;
+            object ie = dom.getElementById("ContentPlaceHolder1_txtCustomerNo");
+            if (ie != null)
+            {
+                if (ie is IHTMLInputElement)
+                {
+                    ((IHTMLInputElement)ie).value = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)]["NumberSubscriber"].ToString();
+                }
+            }
+
+            object[] args = { "ctl00$ContentPlaceHolder1$btnGetInvoices2", "", true, "Group2", "", false, false };
+
+            WebViewBrowser.Document.InvokeScript("__doPostBack", args);
+
+            Completeload = true;
+
+
+
         }
 
+       
 
         DataTable TablePayment;
         private static readonly Regex sWhitespace = new Regex(@"\s+");
@@ -787,12 +828,7 @@ namespace Electricity_Subscriber.Layouts
             }
         }
 
-        private void fastSearch_Click(object sender, RoutedEventArgs e)
-        {
-
-            StartFastSearch();
-
-        }
+      
 
 
 
