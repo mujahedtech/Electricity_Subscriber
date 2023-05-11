@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -99,6 +100,17 @@ namespace Electricity_Subscriber.Layouts
         {
             e.Handled = true;
             AddTab();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            
+            if (MainTab.Items.Count==1)
+            {
+
+                AddNewTab.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

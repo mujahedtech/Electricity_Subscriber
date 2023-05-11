@@ -65,6 +65,58 @@
 
 
             <Style TargetType="{x:Type Button}"
+                   x:Key="BtnExcel">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"
+                                    CornerRadius="10"
+                                    Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Cursor"
+                                                        Value="Hand" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Center"
+                                                             Margin="2"
+                                                             Foreground="White"
+                                                             Height="40"
+                                                             Width="40"
+                                                             Kind="FileExcelOutline" />
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Text="{TemplateBinding Content}"
+                                               Foreground="White"
+                                               FontSize="15"
+                                               FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+
+
+            <Style TargetType="{x:Type Button}"
                    x:Key="BtnPrintPreview">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -370,7 +422,7 @@
                                     Height="54"
                                     VerticalAlignment="Top"
                                     Margin="10,0" />
-                            <Button Visibility="Collapsed" IsEnabled="False"
+                            <Button Visibility="Visible" 
                                     Margin="10,0"
                                     Uid="1"
                                     Style="{StaticResource BtnUpdate}"
@@ -424,7 +476,14 @@
 
                             </materialDesign:Card>
 
-
+                            <Button Margin="10 0"
+                                    Uid="Excel"
+                                    Content="اكسل"
+                                    Style="{StaticResource BtnExcel}"
+                                    Click="Print_Click"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                            </Button>
 
 
                             <Button Margin="10 0"
@@ -452,12 +511,80 @@
                         <DataGrid Foreground="Black"
                                   MouseDoubleClick="Datagrid1_MouseDoubleClick"
                                   MinWidth="900"
-                                  LoadingRow="datagridview1_LoadingRow_1"
+                                 LoadingRow="datagridview1_LoadingRow_1"
                                   Visibility="Visible"
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   Name="Datagrid1"
                                   Grid.Row="2"
-                                  IsReadOnly="True">
+                                  IsReadOnly="True" FontWeight="Normal" >
+
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <!--<Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
+                                    <Setter Property="Padding"
+                                            Value="5 5" />
+                                    <Setter Property="FontSize"
+                                            Value="15" />
+                                    <Setter Property="FontWeight"
+                                            Value="Normal" />-->
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="DodgerBlue"/>
+                                            <Setter Property="Foreground"
+                                                    Value="white" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Padding" Value="7"/>
+                                    <Setter Property="BorderBrush"
+                                            Value="{x:Null}" />
+                                    <Setter Property="BorderThickness" Value="0"/>
+
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Border Padding="{TemplateBinding Padding}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Background="{TemplateBinding Background}"
+                                                        SnapsToDevicePixels="True">
+                                                    <ContentPresenter  HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                </Border>
+
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Padding"
+                                                                Value="12" />
+
+                                                        <Setter Property="FontWeight"
+                                                                Value="Black" />
+                                                        
+                                                        <Setter Property="FontSize"
+                                                                Value="16" />
+                                                    </Trigger >
+                                                </ControlTemplate.Triggers>
+                                                    
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="DodgerBlue" />
+                                            <Setter Property="Foreground"
+                                                    Value="white" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <Separator />
@@ -508,37 +635,46 @@
                                     <Separator />
 
                                     <MenuItem Header="عرض ويب"
-                                              Name="WebView"
+                                              Name="WebViewMenu"
                                               Click="WebView_Click" />
 
                                 </ContextMenu>
 
                             </DataGrid.ContextMenu>
                             <DataGrid.Resources>
-                                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"
-                                       TargetType="{x:Type DataGridColumnHeader}">
-                                    <!--<Setter Property="FontSize" Value="20"/>-->
+                               
 
-                                    <Setter Property="Background"
-                                            Value="#FF90CAF9" />
-                                    <Setter Property="Foreground"
-                                            Value="Black" />
-                                </Style>
-
-                                <Style BasedOn="{StaticResource {x:Type DataGridRow}}"
-                                       TargetType="{x:Type DataGridRow}">
-                                    <Setter Property="HorizontalContentAlignment"
-                                            Value="Center" />
-                                    <Setter Property="Margin"
-                                            Value="5 5" />
-                                    <Setter Property="FontSize"
-                                            Value="15" />
-                                    <Setter Property="FontWeight"
-                                            Value="Normal" />
-
-
-                                </Style>
+                               
                             </DataGrid.Resources>
+
+
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+
+                                            <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                                    Background="{x:Null}"
+                                                    BorderBrush="{x:Null}"
+                                                    Height="20"
+                                                    Width="20"
+                                                    Name="PrintData"
+                                                    Click="PrintData_Click" CommandParameter="{Binding .}"
+                                                   >
+
+                                                <materialDesign:PackIcon Height="20"
+                                                                         Width="20"
+                                                                         Kind="Printer"
+                                                                         Foreground="Black" />
+                                            </Button>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+
+
                         </DataGrid>
 
 

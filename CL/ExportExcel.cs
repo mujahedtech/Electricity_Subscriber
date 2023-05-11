@@ -4,14 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Office.Interop;
 
 namespace Electricity_Subscriber.CL
 {
     class ExportExcel
     {
+        private string GetExcelColumnName(int columnNumber)
+        {
+            string columnName = "";
 
+            while (columnNumber > 0)
+            {
+                int modulo = (columnNumber - 1) % 26;
+                columnName = Convert.ToChar('A' + modulo) + columnName;
+                columnNumber = (columnNumber - modulo) / 26;
+            }
 
-        public string ExportToExcel(System.Data.DataTable DTForExcel)
+            return columnName;
+        }
+
+        public string ExportToExcel(System.Data.DataTable DTForExcel,bool SaveAs=false,string SaveAsPath="")
         {
             string Message = "";
 
@@ -31,10 +44,15 @@ namespace Electricity_Subscriber.CL
                 WS.DisplayRightToLeft = true;
                 //عنوان الجدول
                 Microsoft.Office.Interop.Excel.Range Header;
-                Header = WS.Range["A1", "i1"];
+                Header = WS.Range["A1", $"{GetExcelColumnName(DTForExcel.Columns.Count)}1"];
                 Header.Font.Bold = true;
                 Header.Rows.RowHeight = 30;
                 Header.Interior.Color = XlRgbColor.rgbLightGray;
+
+                Header.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                Header.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                Header.Columns.Borders.Color = System.Drawing.Color.Black;
 
 
 
@@ -43,7 +61,7 @@ namespace Electricity_Subscriber.CL
                 Range RA;
 
                 Count_Rows += 1;
-                RA = WS.Range["A1", "i" + Count_Rows];
+                RA = WS.Range["A2", $"{GetExcelColumnName(DTForExcel.Columns.Count)}" + Count_Rows];
                 WS.Columns.Font.Size = 15;
                 RA.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                 RA.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
@@ -65,11 +83,46 @@ namespace Electricity_Subscriber.CL
 
                 }
 
-                XLS.Visible = true;
+                string FolderName = AppDomain.CurrentDomain.BaseDirectory+"ExcelFiles";
+
+                string filname = FolderName+ @"\filename.xlsx";
+
+           
+
                 XLS.WindowState = XlWindowState.xlMaximized;
                 XLS.Columns.AutoFit();
 
-                Message = "تم التحويل بنجاح";
+                if (SaveAs)
+                {
+                    if (System.IO.Directory.Exists(FolderName) ==false)
+                    {
+                        System.IO.Directory.CreateDirectory(FolderName);
+                    }
+                    if (System.IO.File.Exists($"{FolderName}\\{SaveAsPath}.xlsx"))
+                    {
+                        System.IO.File.Delete($"{FolderName}\\{SaveAsPath}.xlsx");
+                    }
+
+                    //WB.SaveAs($"f:\\{SaveAsPath}.xls", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, true, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges, Type.Missing, Type.Missing);
+
+                    System.Windows.MessageBox.Show(SaveAsPath);
+
+                    WB.SaveAs($"{FolderName}\\{SaveAsPath}.xls");
+                    WB.Close();
+
+                    XLS.Visible = false;
+
+                }
+                else
+                {
+                    XLS.Visible = true;
+
+
+                    Message = "تم التحويل بنجاح";
+                }
+               
+
+               
             }
             else if (DTForExcel.Rows.Count == 0)
             {

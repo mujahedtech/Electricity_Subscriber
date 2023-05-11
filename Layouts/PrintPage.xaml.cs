@@ -149,9 +149,36 @@ namespace Electricity_Subscriber.Layouts
                 double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / e.ActualWidth, capabilities.PageImageableArea.ExtentHeight /
                                e.ActualHeight);
 
-                //Transform the Visual to scale
-                e.LayoutTransform = new ScaleTransform(scale, scale);
 
+            if (DTChecks.Rows.Count<=25)
+            {
+                //Transform the Visual to scale
+                e.LayoutTransform = new ScaleTransform(.9, 1);
+            }
+            else
+            {
+                double SizeCustom = 0;
+                if (PrintSize.Text.Length>0)
+                {
+                    SizeCustom = double.Parse(PrintSize.Text);
+                    SizeCustom = SizeCustom / 100;
+                    e.LayoutTransform = new ScaleTransform(SizeCustom, SizeCustom);
+                }
+                else
+                { //Transform the Visual to scale
+                    e.LayoutTransform = new ScaleTransform(1, 1);
+
+                }
+
+               
+            }
+               
+
+           
+
+
+
+           
                 //get the size of the printer page
                 System.Windows.Size sz = new System.Windows.Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
 
@@ -168,7 +195,7 @@ namespace Electricity_Subscriber.Layouts
                 //now print the visual to printer to fit on the one page.
                 pd.PrintVisual(v, "My Print");
 
-                //apply the original transform.
+            //apply the original transform.
                 e.LayoutTransform = originalScale;
 
             this.Close();
@@ -186,24 +213,37 @@ namespace Electricity_Subscriber.Layouts
 
         private void PrintBtn_Click(object sender, RoutedEventArgs e)
         {
+            //System.IO.File.WriteAllText("Printer.dll", txtPrinter.Text);
 
-          
+            //PrintDialog printDialog = new PrintDialog();
+            //PrintQueue queue = new LocalPrintServer().GetPrintQueue(txtPrinter.Text);
+
+            //printDialog.PrintQueue = queue;
+
+            //printDialog.PageRangeSelection = PageRangeSelection.AllPages;
+
+            //printDialog.PrintVisual(MainGrid, "");
+
+
+
+            //return;
+
             Print(MainGrid);
 
             return;
             try
             {
 
-                System.IO.File.WriteAllText("Printer.dll", txtPrinter.Text);
+                //System.IO.File.WriteAllText("Printer.dll", txtPrinter.Text);
 
-                PrintDialog printDialog = new PrintDialog();
-                PrintQueue queue = new LocalPrintServer().GetPrintQueue(txtPrinter.Text);
+                //PrintDialog printDialog = new PrintDialog();
+                //PrintQueue queue = new LocalPrintServer().GetPrintQueue(txtPrinter.Text);
 
-                printDialog.PrintQueue = queue;
+                //printDialog.PrintQueue = queue;
 
-                printDialog.PageRangeSelection = PageRangeSelection.AllPages;
+                //printDialog.PageRangeSelection = PageRangeSelection.AllPages;
 
-                printDialog.PrintVisual(MainGrid, "");
+                //printDialog.PrintVisual(MainGrid, "");
 
 
                 return;

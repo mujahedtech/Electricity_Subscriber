@@ -10,7 +10,7 @@
          ResizeMode="CanResizeWithGrip" WindowStyle="None"
         Title="SecoundWindow" WindowStartupLocation="CenterScreen"
         
-        Height="700" Width="1100"
+        Height="700" Width="1200"
         Loaded="Window_Loaded"
         AllowsTransparency="True"
         >
@@ -67,7 +67,68 @@
                                     <ComboBoxItem Content="en-US"/>
                                 </ComboBox>
                             </Border>
-                            
+
+
+
+                            <ToggleButton 
+                                   
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    VerticalAlignment="Center" Name="btnColor"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                <materialDesign:PackIcon  Kind="Color"
+                                                          Foreground="White"
+                                                          Width="25"
+                                                          Height="25" />
+                            </ToggleButton>
+
+
+                            <Popup StaysOpen="True" IsOpen="{Binding ElementName=btnColor,Path=IsChecked}" Placement="Bottom" PlacementTarget="{Binding ElementName=btnColor}" AllowsTransparency="True">
+
+                                <materialDesign:Card Width="220"
+                                                     Height="300">
+
+                                    <Grid Background="White" Margin="10">
+                                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                            <ItemsControl Grid.Row="2"
+                                                          Grid.RowSpan="6"
+                                                          Grid.ColumnSpan="7"
+                                                          Background="White"
+                                                          Name="ListColors">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button ToolTip="{Binding ColorName}" Margin="5,0"
+                                                                Background="{x:Null}"
+                                                                BorderBrush="{x:Null}"
+                                                                VerticalAlignment="Center"
+                                                                Click="Button_Click_1"
+                                                                CommandParameter="{Binding .}"
+                                                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                                            <materialDesign:PackIcon  Kind="Color"
+                                                                                      Foreground="{Binding ColorCode}"
+                                                                                      Height="30"
+                                                                                      Width="30" />
+                                                        </Button>
+
+
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+
+                                            </ItemsControl>
+
+                                        </ScrollViewer>
+                                    </Grid>
+
+                                </materialDesign:Card>
+                                
+                              
+                            </Popup>
+
 
                         </StackPanel>
                 </Grid>
@@ -160,7 +221,7 @@
 
 
 
-        <Grid Background="White" Name="GridPass" Visibility="Hidden">
+        <Grid Background="White" Name="GridPass" Visibility="Visible">
             <materialDesign:Card Padding="10,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <PasswordBox FontSize="15" MinWidth="250" Name="txtPassWord" KeyDown="txtPassWord_KeyDown"/>
             </materialDesign:Card>

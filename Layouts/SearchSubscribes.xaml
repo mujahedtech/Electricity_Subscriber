@@ -7,7 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             FlowDirection="RightToLeft">
+             FlowDirection="RightToLeft"
+             Loaded="UserControl_Loaded"
+             >
     <UserControl.Resources>
 
         <SolidColorBrush x:Key="PrimaryBlueColor"

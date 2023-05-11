@@ -154,9 +154,9 @@ namespace Electricity_Subscriber.Layouts
 
             if (AcceptRun)
             {
-                
 
-                
+
+
 
                 string month = txtMonth.Text;
                 if (month.Length == 1)
@@ -167,7 +167,30 @@ namespace Electricity_Subscriber.Layouts
                 DataTable dt = GetPaidTest(browser1.DocumentText);
                 dt.Merge(GetUnPaidTest(browser1.DocumentText));
 
+
+                //Window test = new Window();
+
+                //test.Content = new DataGrid { ItemsSource = dt.DefaultView };
+
+                //test.Show();
+
+
+
+
                 double PaidAmount = 0;
+
+
+
+
+                double PreviousAmount = 0;
+
+                if (dt.Columns.Contains("RequiredAmount"))
+                {
+                    PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"DateBill<='{txtYear.Text}/{month}/1'").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"DateBill<='{txtYear.Text}/{month}/1'").ToString());
+
+                }
+
+
                 if (dt.Columns.Contains("PaidAmount"))
                 {
                     PaidAmount = string.IsNullOrEmpty(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(PaidAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
@@ -175,38 +198,45 @@ namespace Electricity_Subscriber.Layouts
                 }
 
                 double BillAmount = string.IsNullOrEmpty(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(BillAmount)", $"DateBill='{txtYear.Text}/{month}'").ToString());
-                double PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString());
+                //double PreviousAmount = string.IsNullOrEmpty(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString()) ? 0 : double.Parse(dt.Compute("sum(RequiredAmount)", $"(PaidDate='غير مسددة') and DateBill<>'{txtYear.Text}/{month}'").ToString());
 
                 DataView dv = new DataView(dt);
 
                 dv.RowFilter = $"DateBill='{txtYear.Text}/{month}'";
 
                 string PaidDate = "";
-                if (dv.ToTable().Rows.Count>0)
+
+                string RequiredAmount = "0";
+
+                if (dv.ToTable().Rows.Count > 0)
                 {
                     PaidDate = dv.ToTable().Rows[0]["PaidDate"].ToString();
+                    RequiredAmount = dv.ToTable().Rows[0]["RequiredAmount"].ToString();
+
+
+
                 }
-                 
+
 
 
 
 
                 DT.Rows[Datagrid1.SelectedIndex]["SubscriberPaid"] = PaidDate;
 
-                if (PaidDate== "مسددة")
+                if (PaidDate == "مسددة")
                 {
                     PaidAmount = BillAmount;
                 }
 
 
-                DT.Rows[Datagrid1.SelectedIndex]["BillAmount"] = BillAmount;
-                DT.Rows[Datagrid1.SelectedIndex]["PaidAmount"] = PaidAmount;
-                DT.Rows[Datagrid1.SelectedIndex]["TotalAmount"] = BillAmount - PaidAmount;
-                DT.Rows[Datagrid1.SelectedIndex]["PreviousAmount"] = PreviousAmount;
+                DT.Rows[Datagrid1.SelectedIndex]["BillAmount"] = BillAmount.ToString("0.000");
+                DT.Rows[Datagrid1.SelectedIndex]["PaidAmount"] = PaidAmount.ToString("0.000");
+                DT.Rows[Datagrid1.SelectedIndex]["TotalAmount"] = PreviousAmount.ToString("0.000");
+                DT.Rows[Datagrid1.SelectedIndex]["PreviousAmount"] = (PreviousAmount - BillAmount) > 0 ? (PreviousAmount - BillAmount).ToString("0.000") : "0";
 
 
 
-               
+
 
 
 
@@ -215,9 +245,9 @@ namespace Electricity_Subscriber.Layouts
                 Datagrid1.ItemsSource = DT.DefaultView;
 
 
-                if (Datagrid1.SelectedIndex+1 == DT.Rows.Count)
+                if (Datagrid1.SelectedIndex + 1 == DT.Rows.Count)
                 {
-                  
+
                     txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
                     txtTotalBill.Text = DT.Compute("Sum(BillAmount)", "").ToString();
 
@@ -225,7 +255,7 @@ namespace Electricity_Subscriber.Layouts
 
                     DT.Rows.Add(null, null, "مجموع", "", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
 
-                  
+
 
 
                     gridview.Visibility = Visibility.Collapsed;
@@ -241,7 +271,7 @@ namespace Electricity_Subscriber.Layouts
                 browser1.Navigate(new Uri(Path));
 
                 txtTotal.Text = DT.Compute("Sum(TotalAmount)", "").ToString();
-               
+
 
 
 
@@ -280,10 +310,15 @@ namespace Electricity_Subscriber.Layouts
         System.Windows.Forms.WebBrowser WebViewBrowser;
         Window View;
         bool Completeload = false;
-        private void WebView_Click(object sender, RoutedEventArgs e)
+        string SelectedIDForWeb = "";
+
+
+        void WebView()
         {
+
             if (DT.Rows.Count > 0)
             {
+                SelectedIDForWeb = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][3].ToString();
 
                 WebViewBrowser = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
 
@@ -291,18 +326,38 @@ namespace Electricity_Subscriber.Layouts
 
                 WebViewBrowser.DocumentCompleted += WebViewBrowser_DocumentCompleted; ;
 
-             
+
             }
+        }
+
+        private void WebView_Click(object sender, RoutedEventArgs e)
+        {
+
+            WebView();
         }
 
         private void WebViewBrowser_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             if (Completeload == true)
             {
+                Completeload = false;
                 View = new Window();
 
 
                 Grid grid = new Grid();
+
+
+                // Define the Rows
+                RowDefinition rowDef1 = new RowDefinition() { Height = new GridLength(50) };
+                RowDefinition rowDef2 = new RowDefinition();
+
+                grid.RowDefinitions.Add(rowDef1);
+                grid.RowDefinitions.Add(rowDef2);
+
+
+
+
+
 
                 System.Windows.Forms.Integration.WindowsFormsHost formsHost = new System.Windows.Forms.Integration.WindowsFormsHost();
 
@@ -310,7 +365,23 @@ namespace Electricity_Subscriber.Layouts
                 formsHost.Child = WebViewBrowser;
 
 
+
+
+                Button btn = new Button { Content = "طباعة", Name = "BtnPrintWeb", VerticalAlignment = VerticalAlignment.Center };
+
+
+                btn.Click += Btn_Click;
+
+
+
+
+                Grid.SetRow(btn, 0);
+                Grid.SetRow(formsHost, 1);
+
+                grid.Children.Add(btn);
+
                 grid.Children.Add(formsHost);
+
 
                 //View.ShowInTaskbar = false;
 
@@ -318,7 +389,10 @@ namespace Electricity_Subscriber.Layouts
 
                 View.WindowState = WindowState.Maximized;
 
-                View.ShowDialog();
+                View.Show();
+
+                btn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+
 
                 return;
             }
@@ -329,7 +403,7 @@ namespace Electricity_Subscriber.Layouts
             {
                 if (ie is IHTMLInputElement)
                 {
-                    ((IHTMLInputElement)ie).value = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)]["NumberSubscriber"].ToString();
+                    ((IHTMLInputElement)ie).value = SelectedIDForWeb;
                 }
             }
 
@@ -343,7 +417,19 @@ namespace Electricity_Subscriber.Layouts
 
         }
 
-       
+
+
+        private void Btn_Click(object sender, RoutedEventArgs e)
+        {
+            WebViewBrowser.ShowPrintDialog() ;
+        }
+
+        public static bool Isdouble(string input)
+        {
+            double test = 0;
+            return double.TryParse(input, out test);
+        }
+
 
         DataTable TablePayment;
         private static readonly Regex sWhitespace = new Regex(@"\s+");
@@ -371,9 +457,13 @@ namespace Electricity_Subscriber.Layouts
 
                 foreach (HtmlNode header in headers)
 
-                    if (header.InnerText == "قيمة الفاتورة" || header.InnerText == "القيمة المسددة" || header.InnerText == "القيمة المطلوبة")
+                    if (header.InnerText == "قيمة الفاتورة" || header.InnerText == "القيمة المسددة" || header.InnerText == "القيمة المطلوبة" || header.InnerText == "القيمة المتبقية")
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(double));
+                    }
+                    else if (header.InnerText == "شهر الإصدار")
+                    {
+                        TablePayment.Columns.Add(header.InnerText, typeof(DateTime));
                     }
                     else
                     {
@@ -398,7 +488,7 @@ namespace Electricity_Subscriber.Layouts
 
                 TablePayment.Columns["القيمة المسددة"].ColumnName = "PaidAmount";
                 TablePayment.Columns["تاريخ التسديد"].ColumnName = "PaidDate";
-                TablePayment.Columns["القيمة المطلوبة"].ColumnName = "RequiredAmount";
+                TablePayment.Columns["القيمة المتبقية"].ColumnName = "RequiredAmount";
             }
 
 
@@ -432,6 +522,10 @@ namespace Electricity_Subscriber.Layouts
                     if (header.InnerText == "قيمة الفاتورة" || header.InnerText == "القيمة المطلوبة")
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(double));
+                    }
+                    else if (header.InnerText == "شهر الإصدار")
+                    {
+                        TablePayment.Columns.Add(header.InnerText, typeof(DateTime));
                     }
                     else
                     {
@@ -536,30 +630,19 @@ namespace Electricity_Subscriber.Layouts
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            if (BW.IsBusy == false)
-            {
+
+            gridview.Visibility = Visibility.Visible;
+
+            MovetoRowDataGridByIndex(0);
+
+            AcceptRun = false;
+
+            browser1 = new System.Windows.Forms.WebBrowser { ScriptErrorsSuppressed = true };
+
+            browser1.Navigate(new Uri(Path));
 
 
-                IsEnabled = false;
-
-
-
-
-
-
-                Month = txtMonth.Text; Year = txtYear.Text;
-
-
-                gridview.Visibility = Visibility.Visible;
-
-
-                BW.RunWorkerAsync();
-
-
-
-
-            }
-
+            browser1.DocumentCompleted += Browser1_DocumentCompleted;
 
 
 
@@ -633,7 +716,7 @@ namespace Electricity_Subscriber.Layouts
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-
+            txtSearch.Focus();
 
         }
 
@@ -673,7 +756,7 @@ namespace Electricity_Subscriber.Layouts
 
             var DisplayDateQuery = DateTime.Now;
 
-            DisplayDateQuery = DisplayDateQuery.AddMonths(-2);
+            DisplayDateQuery = DisplayDateQuery.AddMonths(-1);
 
 
 
@@ -738,6 +821,8 @@ namespace Electricity_Subscriber.Layouts
 
 
                 Datagrid1.ItemsSource = UpdateList(SQLCommand).DefaultView;
+
+
 
                 txtSearch.Text = "";
 
@@ -828,7 +913,7 @@ namespace Electricity_Subscriber.Layouts
             }
         }
 
-      
+
 
 
 
@@ -898,6 +983,9 @@ namespace Electricity_Subscriber.Layouts
 
                         break;
 
+                    case "Excel":
+                        new CL.ExportExcel().ExportToExcel(DT, true, txtType.Text + " اصدار شهر " + txtMonth.Text + "---" + DateTime.Now.ToString("yyyy MM dd"));
+                        break;
                 }
 
 
@@ -986,36 +1074,61 @@ namespace Electricity_Subscriber.Layouts
 
         }
 
-
+        private void PrintData_Click(object sender, RoutedEventArgs e)
+        {
+            WebView();
+        }
 
         private void datagridview1_LoadingRow_1(object sender, DataGridRowEventArgs e)
         {
             // Get the DataRow corresponding to the DataGridRow that is loading.
             System.Data.DataRowView item = e.Row.Item as System.Data.DataRowView;
+
+
+
             try
             {
                 if (item != null)
                 {
                     System.Data.DataRow row = item.Row;
-                    // Access cell values values if needed...
-                    var colValue = row["NoteSubscriber"];
 
-                    if (colValue.ToString() == "false")
+
+                    e.Row.Foreground = Brushes.Black;
+                    // Access cell values values if needed...
+                    var colValue = row["NameSubscriber"];
+
+
+                    //if (colValue.ToString() == "مجموع")
+                    //{
+
+                    //    e.Row.FontWeight = FontWeights.Bold;
+                    //    e.Row.FontSize = 20;
+                    //}
+
+
+                    var colColor = row["NoteSubscriber"];
+                    //if (string.IsNullOrWhiteSpace(colColor.ToString()))
+                    //{
+
+                    //    e.Row.Background = Brushes.Black;
+                    //}
+
+                    if (colColor.ToString() == "false")
                     {
 
                         e.Row.Background = Brushes.Green;
                     }
-                    else if (colValue.ToString() == "delete")
+                    else if (colColor.ToString() == "delete")
                     {
 
                         e.Row.Background = Brushes.Red;
                     }
-                    else if (colValue.ToString() == "")
+                    else if (colColor.ToString() == "")
                     {
 
                         e.Row.Background = Brushes.WhiteSmoke;
                     }
-                    else if (colValue.ToString() == "Favorites")
+                    else if (colColor.ToString() == "Favorites")
                     {
 
                         e.Row.Foreground = Brushes.White;
