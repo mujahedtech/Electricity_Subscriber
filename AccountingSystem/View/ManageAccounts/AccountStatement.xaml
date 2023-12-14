@@ -61,6 +61,13 @@
                         Grid.Row="2"
                         Name="btnView"
                         Click="btnView_Click" />
+
+                <Button Margin="10 0" Content="طباعة"
+                        Grid.Row="2"
+                      Name="btnPrint"
+                        Click="btnPrint_Click"
+                        
+                         />
             </StackPanel>
 
 

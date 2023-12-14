@@ -289,6 +289,8 @@ namespace AccountingSystem.ReportDoc {
             
             private global::System.Data.DataColumn columnCredit;
             
+            private global::System.Data.DataColumn columnBalance;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountStatementDataTable() {
@@ -364,6 +366,14 @@ namespace AccountingSystem.ReportDoc {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn BalanceColumn {
+                get {
+                    return this.columnBalance;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -399,14 +409,15 @@ namespace AccountingSystem.ReportDoc {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public AccountStatementRow AddAccountStatementRow(System.DateTime Date, string TransType, string Note, double Debit, double Credit) {
+            public AccountStatementRow AddAccountStatementRow(System.DateTime Date, string TransType, string Note, double Debit, double Credit, decimal Balance) {
                 AccountStatementRow rowAccountStatementRow = ((AccountStatementRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Date,
                         TransType,
                         Note,
                         Debit,
-                        Credit};
+                        Credit,
+                        Balance};
                 rowAccountStatementRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAccountStatementRow);
                 return rowAccountStatementRow;
@@ -434,6 +445,7 @@ namespace AccountingSystem.ReportDoc {
                 this.columnNote = base.Columns["Note"];
                 this.columnDebit = base.Columns["Debit"];
                 this.columnCredit = base.Columns["Credit"];
+                this.columnBalance = base.Columns["Balance"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -449,6 +461,8 @@ namespace AccountingSystem.ReportDoc {
                 base.Columns.Add(this.columnDebit);
                 this.columnCredit = new global::System.Data.DataColumn("Credit", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCredit);
+                this.columnBalance = new global::System.Data.DataColumn("Balance", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBalance);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -671,6 +685,22 @@ namespace AccountingSystem.ReportDoc {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal Balance {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableAccountStatement.BalanceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Balance\' in table \'AccountStatement\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAccountStatement.BalanceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsDateNull() {
                 return this.IsNull(this.tableAccountStatement.DateColumn);
             }
@@ -727,6 +757,18 @@ namespace AccountingSystem.ReportDoc {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCreditNull() {
                 this[this.tableAccountStatement.CreditColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsBalanceNull() {
+                return this.IsNull(this.tableAccountStatement.BalanceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetBalanceNull() {
+                this[this.tableAccountStatement.BalanceColumn] = global::System.Convert.DBNull;
             }
         }
         

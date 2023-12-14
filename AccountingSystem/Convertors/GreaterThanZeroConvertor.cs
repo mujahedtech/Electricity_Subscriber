@@ -13,7 +13,7 @@ namespace AccountingSystem.Convertors
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            if (value is string) return true;
+            if (value is string==false) return false;
             else if (int.Parse(value.ToString()) > 0) return true;
             else return false;
 

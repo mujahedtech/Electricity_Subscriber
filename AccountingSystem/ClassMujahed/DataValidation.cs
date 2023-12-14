@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using System.Reflection;
 
 namespace AccountingSystem.ClassMujahed
 {
-    public class DataValidation
+    public  class DataValidation
     {
         //else if (MujahedClass.Isint(textBox.Text) == false)
         //{
@@ -18,6 +19,14 @@ namespace AccountingSystem.ClassMujahed
         //     errorMsg = "Category Number is not Valid";
         //    uIElement.Focus();
         //}
+
+
+
+
+
+
+
+
         public enum Validtion { Error, Ok, Edit }
 
         public static bool Isint(string input)

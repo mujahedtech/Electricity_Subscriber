@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Reporting.WinForms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace AccountingSystem.Reports
         public MainReportsWindow()
         {
             InitializeComponent();
+
+            Loaded += MainReportsWindow_Loaded;
+        }
+
+
+       
+
+        private void MainReportsWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ReportViewer.SetDisplayMode(DisplayMode.PrintLayout);
         }
     }
 }

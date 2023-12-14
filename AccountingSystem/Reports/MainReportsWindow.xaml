@@ -10,7 +10,9 @@
     <Grid Background="White">
         <WindowsFormsHost>
             <rv:ReportViewer  ShowPrintButton="True"
-                              x:Name="ReportViewr1" />
+                              x:Name="ReportViewer" 
+                              
+                              />
 
         </WindowsFormsHost>
     </Grid>
