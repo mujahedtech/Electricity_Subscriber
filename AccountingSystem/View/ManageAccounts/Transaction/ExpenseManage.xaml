@@ -1,0 +1,235 @@
+﻿<UserControl x:Class="AccountingSystem.View.ManageAccounts.Transaction.ExpenseManage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountingSystem.View.ManageAccounts.Definition"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <Grid>
+        <Grid>
+            <Grid Name="ContentGrid"
+                  Margin="20"
+                  Grid.Column="3">
+
+
+
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition />
+                        <RowDefinition Height="20" />
+
+
+                    </Grid.RowDefinitions>
+
+
+
+                    <materialDesign:Card Margin="0 55 0 0"
+                                         Padding="5"
+                                         Grid.Row="2"
+                                         Grid.Column="2"
+                                         VerticalAlignment="Top"
+                                         Background="{StaticResource MainElementColor}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition MinWidth="100" />
+
+                                <ColumnDefinition Width="auto" />
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="5" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="اسم المصروف"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <ComboBox Name="CobAccount"
+                                          SelectedValuePath="Id"
+                                          DisplayMemberPath="AccountName"
+                                          Text="{Binding VehicleNumber}"
+                                          IsEditable="True" />
+                            </materialDesign:Card>
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Text="مركز الكلفة"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="2"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <ComboBox Name="CobCenterCost"
+                                          Text="{Binding VehicleNumber}"
+                                          SelectedValuePath="Id"
+                                          DisplayMemberPath="InvName" />
+                            </materialDesign:Card>
+
+
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Text="التاريخ"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="4"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <DatePicker SelectedDate="{x:Static sys:DateTime.Now}"
+                                            Name="txtDate" />
+                            </materialDesign:Card>
+
+
+
+                            <TextBox Grid.Row="6"
+                                     Grid.ColumnSpan="2"
+                                     Tag="القيمة"
+                                     Name="txtAmount" />
+
+
+
+
+
+
+                            <TextBox Grid.Row="8"
+                                     MinHeight="100"
+                                     Grid.ColumnSpan="2"
+                                     Tag="ملاحظات"
+                                     Name="txtNote" />
+
+
+                            <Button Content="اضافة مصروف"
+                                    Width="142"
+                                    Height="30"
+                                    Grid.Row="10"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Center"
+                                    Name="btnADD"
+                                    Click="btnADDClick" />
+
+
+
+
+
+
+                        </Grid>
+
+                    </materialDesign:Card>
+
+
+
+
+
+
+
+
+                    <Border Margin="0"
+                            CornerRadius="3"
+                            Padding="5"
+                            Grid.Row="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid Grid.Row="0"
+                                  Height="40">
+                                <TextBox Uid="ابحث هنا"
+                                         Style="{StaticResource EntryNewWithHint}"
+                                         Text="{Binding Searchtirelbl,UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+
+
+
+
+
+
+
+                            </Grid>
+
+                            <materialDesign:Card Padding="0"
+                                                 Grid.Row="2"
+                                                 Background="{StaticResource MainElementColor}">
+
+                                <DataGrid Name="DataGridListTrans"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          MouseDoubleClick="DataGridListTrans_MouseDoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID"
+                                                            Binding="{Binding Id}" />
+                                        <DataGridTextColumn Header="التاريخ"
+                                                            Binding="{Binding DateEntered,StringFormat=yyyy/MM/dd}" />
+                                        <DataGridTextColumn Header="القيمة"
+                                                            Binding="{Binding Amount}" />
+                                        <DataGridTextColumn Header="اسم الحساب"
+                                                            Binding="{Binding AccountName}" />
+                                        <DataGridTextColumn Header="الحركة"
+                                                            Binding="{Binding TransactionType}" />
+                                        <DataGridTextColumn Header="الكلفة"
+                                                            Binding="{Binding InvName}" />
+                                        <DataGridTextColumn Header="البيان"
+                                                            Binding="{Binding Note}" />
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </materialDesign:Card>
+                        </Grid>
+                    </Border>
+
+
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

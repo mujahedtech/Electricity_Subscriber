@@ -1,0 +1,112 @@
+﻿<Window x:Class="Mujahed_Package.ManualCash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mujahed_Package"
+        mc:Ignorable="d"
+        Title="ManualCash"  Height="700" Width="768"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Con="clr-namespace:Mujahed_Package.Convertors"
+        FlowDirection="LeftToRight"
+        WindowStartupLocation="CenterScreen"
+             >
+
+    <Window.Resources>
+        <Con:NumbersToWords x:Key="NumbersToWords"/>
+    </Window.Resources>
+
+    <Grid Background="White" Name="MainGrid">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+            <Button HorizontalAlignment="Center" Height="50" FontSize="30" Content="طباعة" MinWidth="150" Click="Button_Click" />
+            <Border Height="584" VerticalAlignment="Top"  Grid.Row="1" Padding="10" CornerRadius="10" BorderThickness="2" BorderBrush="Gray" Margin="5">
+                <StackPanel>
+                    <TextBlock FontWeight="Bold" Text="نموذج استلام نقدي" HorizontalAlignment="Center" FontSize="30"/>
+
+                    <Grid Height="40"/>
+                    <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="انا الموقع ادناه" FontSize="20"/>
+                    <Grid Height="30"/>
+
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                      
+
+                        <TextBox BorderThickness="0" Text="مجاهد بسام الجرايدة" VerticalContentAlignment="Bottom" Margin="15,0" FontWeight="Bold" HorizontalContentAlignment="Right"   MinWidth="200" FontSize="20"/>
+
+                        <TextBlock HorizontalAlignment="Right"  Text="استلمت من السيد  " VerticalAlignment="Center" FontSize="20"/>
+
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <TextBlock MaxWidth="450" TextWrapping="Wrap" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Text="{Binding ElementName=txtNumber,Path=Text,Converter={StaticResource NumbersToWords}}"/>
+
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="(" FontSize="20"/>
+                        <TextBox BorderThickness="0" VerticalContentAlignment="Bottom" Margin="15,0" FontWeight="Bold" HorizontalContentAlignment="Center"  Name="txtNumber" MinWidth="50" FontSize="20"/>
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text=")" FontSize="20"/>
+                        <TextBlock Margin="15,0,0,0" HorizontalAlignment="Right"  Text="مبلغ و قدره" VerticalAlignment="Center" FontSize="20"/>
+
+
+                    </StackPanel>
+
+
+
+                    <Grid />
+                    <TextBlock HorizontalAlignment="Right"  Text="و عليه اوقع" FontSize="20"/>
+
+                    <Grid Height="30"/>
+
+                    <TextBlock HorizontalAlignment="Right"  Text="و ذلك عن" FontSize="20"/>
+                    <Grid Height="20"/>
+                    <TextBox Text="" BorderThickness="0"  Height="70" TextWrapping="Wrap"  HorizontalContentAlignment="Right"  MinWidth="350" FontSize="20"/>
+
+
+                    <Grid Height="15"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <TextBox  BorderThickness="0" HorizontalAlignment="Right" FontWeight="Black" HorizontalContentAlignment="Right"  MinWidth="350" FontSize="20"/>
+                        <Grid Width="20"/>
+                        <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="الاسم" FontSize="20"/>
+
+                    </StackPanel>
+
+
+                    <Grid Height="20"/>
+
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontWeight="Bold" Text="التوقيع" FontSize="20"/>
+
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat=yyyy/MM/dd}" />
+                            <Grid Width="20"/>
+
+                            <TextBlock Text="التاريخ" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
+
+                        </StackPanel>
+                    </Grid>
+                    <Grid Height="30"/>
+
+                   
+
+
+                </StackPanel>
+            </Border>
+
+
+        </Grid>
+
+    </Grid>
+</Window>

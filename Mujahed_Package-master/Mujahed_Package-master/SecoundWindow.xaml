@@ -1,0 +1,133 @@
+﻿<Window x:Class="Mujahed_Package.SecoundWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mujahed_Package"
+        mc:Ignorable="d"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        ResizeMode="CanResizeWithGrip" WindowStyle="None"
+        Title="SecoundWindow"  Height="800" Width="1100" 
+       
+        WindowStartupLocation="CenterScreen"
+        
+        >
+    <Border BorderThickness="1" BorderBrush="Black" Padding="2">
+
+        <Grid>
+               <Grid>
+
+
+            <Grid Background="WhiteSmoke" FlowDirection="RightToLeft" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="7"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" FlowDirection="LeftToRight" Grid.Row="0" Background="{StaticResource MainColor}">
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20 0">
+                        <Button Click="btnTopButtons" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <materialDesign:PackIcon  Kind="WindowMinimize" Foreground="White" Width="25" Height="25" />
+                        </Button>
+                        <Button Visibility="Visible"  Click="btnTopButtons" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <materialDesign:PackIcon Name="PackIconWindowsState" Kind="WindowMaximize" Foreground="White" Width="25" Height="25" />
+                        </Button>
+                        <Button Click="btnTopButtons" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <materialDesign:PackIcon Kind="Power" Foreground="White" Width="25" Height="25" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0">
+                        <Button Click="btnTopButtons" Uid="3" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <materialDesign:PackIcon  Kind="Update" Foreground="White" Width="25" Height="25" />
+                        </Button>
+                        <Button Click="btnTopButtons" Uid="4" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <materialDesign:PackIcon  Kind="FolderMydrive" Foreground="White" Width="25" Height="25" />
+                        </Button>
+                        <Border BorderThickness="1" BorderBrush="White" Margin="0,3" CornerRadius="10" Padding="10,0">
+                            <TextBlock   VerticalAlignment="Center" Foreground="White" FontSize="20"   Name="lblTime"/>
+                        </Border>
+
+
+                        <materialDesign:Card Margin="10,3" BorderThickness="1" BorderBrush="White" Padding="10,0">
+                            <TextBox  FlowDirection="RightToLeft" Background="White" Width="300"  MaxWidth="300"  VerticalContentAlignment="Center" Foreground="Black" FontSize="15" Name="txtClip"/>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </Grid>
+                <Grid  Grid.Row="1" Name="GridNameButtons" Margin="5 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Uid="0" Height="40" Content="Home"       Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
+                    <Button Grid.Column="1" Uid="1" Height="40" Content="New"        Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" Name="btnNew"/>
+                    <Button Grid.Column="2" Uid="2" Height="40" Content="ShowData"   Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
+                    <Button Grid.Column="3" Uid="3" Height="40" Content="SMReport"   Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
+                    <Button Grid.Column="4" Uid="4" Height="40" Content="Manage"     Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
+                    <Button Grid.Column="5" Uid="5" Height="40" Content="Manual Voucher"     Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" />
+                    <Button Grid.Column="6" Uid="6" Height="40" Content="Match"      Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" />
+                    <Button Grid.Column="7" Uid="7" Height="40" Content="ShowMatch"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" Visibility="Collapsed"/>
+
+
+
+
+
+                </Grid>
+                <Grid  Grid.Row="2" x:Name="GridCursor" Width="100" Height="5" Background="#FF2196F3" HorizontalAlignment="Left" Margin="0 0 0 0"/>
+
+                <Grid x:Name="GridMain" Grid.Row="3" Background="{StaticResource MainColor}">
+
+                </Grid>
+            </Grid>
+            
+            
+            <Grid Visibility="{Binding ElementName=GridMessage,Path=Visibility}">
+                <Grid.Background>
+                    <SolidColorBrush Color="#FFB4B1B1" Opacity=".6" />
+                </Grid.Background>
+
+                <Grid x:Name="GridMessage" Visibility="Collapsed"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <materialDesign:Card FontSize="30" Padding="20">
+                        <StackPanel>
+                            <TextBlock TextAlignment="Center"  x:Name="MsgError" Foreground="{Binding ElementName=btnNo,Path=Background}" />
+
+                            <StackPanel Margin="0 30 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button Click="btnOk_Click" x:Name="btnOk" Width="80" Height="40" FontSize="20" Margin="20 0" Content="OK"/>
+
+                            </StackPanel>
+                        </StackPanel>
+
+                    </materialDesign:Card>
+                </Grid>
+            </Grid>
+
+            <Grid  x:Name="LogGrid" Background="White" Visibility="Collapsed">
+                <materialDesign:Card   Padding="10" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox BorderBrush="White" HorizontalContentAlignment="Center" KeyDown="logtext_KeyDown" x:Name="logtext" FontSize="20" MinWidth="200"/>
+
+                       
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+
+
+            <Grid Background="White" Name="GridPass" Visibility="Collapsed">
+                <materialDesign:Card Padding="10,5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <PasswordBox FontSize="15" MinWidth="250" Name="txtPassWord" KeyDown="txtPassWord_KeyDown"/>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+     
+    </Border>
+    
+</Window>

@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="AccountingSystem.Reports.MonthlyReports"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountingSystem.Reports"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+
+
+
+    <Grid>
+        <StackPanel>
+            <StackPanel Margin="10"
+                        Orientation="Horizontal">
+
+                <TextBlock  Style="{StaticResource LBLStyle}"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="الشهر"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" />
+                <materialDesign:Card Margin="10 0"
+                                     Grid.Row="0"
+                                     Grid.Column="1"
+                                     Padding="5 0"
+                                     Background="{StaticResource MainElementColor2}">
+                    <ComboBox MinWidth="50"
+                              SelectedValuePath="Id"
+                              Name="cobMonth">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="1" />
+                            <ComboBoxItem Content="2" />
+                            <ComboBoxItem Content="3" />
+                            <ComboBoxItem Content="4" />
+                            <ComboBoxItem Content="5" />
+                            <ComboBoxItem Content="6" />
+                            <ComboBoxItem Content="7" />
+                            <ComboBoxItem Content="8" />
+                            <ComboBoxItem Content="9" />
+                            <ComboBoxItem Content="10" />
+                            <ComboBoxItem Content="11" />
+                            <ComboBoxItem Content="12" />
+                        </ComboBox.Items>
+                    </ComboBox>
+                </materialDesign:Card>
+
+
+
+
+
+
+                <TextBlock  Style="{StaticResource LBLStyle}"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="السنة"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" />
+
+                <materialDesign:Card Margin="10 0"
+                                     Grid.Row="0"
+                                     Grid.Column="1"
+                                     Padding="5 0"
+                                     Background="{StaticResource MainElementColor2}">
+                    <ComboBox Name="cobYears"
+                              MinWidth="50" />
+                </materialDesign:Card>
+
+
+
+
+                <Button Click="btnCalculateGrossProfit_Click"
+                        Name="btnCalculateGrossProfit"
+                        Content="احسب مجمل الربح" />
+
+            </StackPanel>
+
+
+            <UniformGrid Margin="10"
+                         Rows="1"
+                         HorizontalAlignment="Left">
+                <TextBox Name="txtTotalEpic"
+                         Tag="مجموع الذبحة"
+                         IsReadOnly="True" />
+                <TextBox Margin="10 0"
+                         Name="txtTotalCash"
+                         Tag="مجموع الغلة"
+                         IsReadOnly="True" />
+                <TextBox Name="txtGrossMargin"
+                         Tag="مجموع الغلة"
+                         IsReadOnly="True" />
+                <TextBox Margin="10 0"
+                         Name="txtGrossMarginStr"
+                         Tag="صافي"
+                         IsReadOnly="True" />
+            </UniformGrid>
+
+            <UniformGrid Margin="10"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left">
+                <Button Margin="10 0"
+                        Click="btnTotalDebit_Click"
+                        Name="btnTotalDebit"
+                        Content="احسب رصيد الدين" />
+
+
+                <TextBox  Tag="مجموع الدين السابق"
+                          IsReadOnly="True"
+                          Name="txtTotalPerviousDebit" />
+
+
+                <TextBox Tag="مجموع الشهر الحالي"
+                         IsReadOnly="True"
+                         Name="txtTotalDebit" />
+
+
+                <TextBox Name="txtNetDebit"
+                         Tag="الفرق"
+                         IsReadOnly="True" />
+                <TextBox Name="txtNetDebitStr"
+                         Tag="صافي"
+                         IsReadOnly="True" />
+
+            </UniformGrid>
+
+            <DataGrid Name="txtDatagrid1"
+                      Visibility="Collapsed">
+
+            </DataGrid>
+
+        </StackPanel>
+    </Grid>
+
+</UserControl>

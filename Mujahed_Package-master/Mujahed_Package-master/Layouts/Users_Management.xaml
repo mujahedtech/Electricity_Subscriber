@@ -1,0 +1,298 @@
+﻿<UserControl x:Class="Mujahed_Package.Layouts.Users_Management"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mujahed_Package.Layouts"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" MinWidth="900"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            Loaded="UserControl_Loaded"
+             >
+    <Grid Name="maingrid" Margin="10">
+        <materialDesign:Card   Padding="10" VerticalAlignment="Top" >
+            <Grid  >
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="50"/>
+                    <RowDefinition x:Name="rowshe2" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+              
+                <ListBox    Grid.Row="0" Grid.Column="0" Name="ListBoxHeader" HorizontalContentAlignment="Stretch"   >
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <materialDesign:Card   FontSize="15"  Background="#FF5E86A6">
+
+
+                                <DockPanel LastChildFill="True" >
+
+                                    <Grid Height="50" DockPanel.Dock="Top"  >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition ></ColumnDefinition>
+                                            <ColumnDefinition ></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="50" ></ColumnDefinition>
+                                            <ColumnDefinition Width="50" ></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="4"
+                                               Name="ChangeStyle" Click="ChangeStyle_Click"
+                                                
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}">
+                                            <materialDesign:PackIcon Kind="Rotate90DegreesCcw"
+                                                                     Width="35"
+                                                                     Height="45"
+                                                                     VerticalAlignment="Center" />
+                                        </Button>
+
+
+                                        <Button Grid.Column="5"
+                                                Name="unSelectAll"
+                                                Click="unSelectAll_Click"
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}">
+                                            <materialDesign:PackIcon Kind="TabUnselected"
+                                                                     Width="35"
+                                                                     Height="45"
+                                                                     VerticalAlignment="Center" />
+                                        </Button>
+
+
+
+                                        <Label MouseLeftButtonUp="UserID_MouseLeftButtonUp" x:Name="UserID" VerticalAlignment="Center" FontSize="20" HorizontalContentAlignment="Center" Foreground="White" Grid.Column="0" Content="UserID"/>
+                                        <Label VerticalAlignment="Center"
+                                               FontSize="20"
+                                               HorizontalContentAlignment="Center"
+                                               Foreground="White"
+                                               Grid.Column="1"
+                                               Content="Username" x:Name="Username" MouseLeftButtonUp="Username_MouseLeftButtonUp" />
+                                        <Label VerticalAlignment="Center"
+                                               FontSize="20"
+                                               HorizontalContentAlignment="Center"
+                                               Foreground="White"
+                                               Grid.Column="2"
+                                               Content="SysID" x:Name="SysID" MouseLeftButtonUp="SysID_MouseLeftButtonUp" />
+                                        <Label MouseLeftButtonUp="State_MouseLeftButtonUp" VerticalAlignment="Center" FontSize="20" HorizontalContentAlignment="Center" Foreground="White" Grid.Column="3" Content="State" x:Name="State"/>
+
+
+                                    </Grid>
+                                    <ItemsPresenter></ItemsPresenter>
+                                </DockPanel>
+                            </materialDesign:Card>
+                        </ControlTemplate>
+                    </ListBox.Template>
+
+                </ListBox>
+
+                <!--Edit Grid-->
+                <Grid Visibility="Collapsed" Name="GridEdit" Grid.Column="0" Grid.Row="0" >
+                    <materialDesign:Card   FontSize="20" Foreground="White"  Background="#FF5E86A6">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="50"/>
+
+                            </Grid.ColumnDefinitions>
+
+
+                            <TextBlock Name="txtID"  VerticalAlignment="Center"  TextAlignment="Center" Text="ID" Grid.Column="0"/>
+                            <TextBox Margin="5 0" Name="txtUserName" BorderBrush="White"  CaretBrush="White"  VerticalAlignment="Center" TextAlignment="Center" Text="Name"   Grid.Column="1"></TextBox>
+                            <TextBlock Name="txtState" VerticalAlignment="Center" TextAlignment="Center" Text="State"   Grid.Column="2"/>
+
+
+
+
+                            <Button Name="btnSaveEdit"
+                                                Grid.Column="3" 
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                                                Click="btnSaveEdit_Click"
+                                                CommandParameter="{Binding .}"
+                                    Foreground="#FF003D6E"
+                                                >
+                                <materialDesign:PackIcon Width="25" Height="25" Kind="ContentSaveEdit" />
+                            </Button>
+
+                        </Grid>
+                    </materialDesign:Card>
+                </Grid>
+                <!--Edit Grid-->
+                <ListBox Visibility="Collapsed" Grid.Row="1" Grid.Column="0" Height="{Binding ElementName=rowshe2,Path=Height}"  MaxHeight="{Binding ElementName=rowshe2,Path=Height}" Name="ListUserNames" HorizontalContentAlignment="Stretch" Background="White" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card FontSize="20" Background="#eee">
+
+
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                        <ColumnDefinition Width="50"></ColumnDefinition>
+
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <TextBlock VerticalAlignment="Center"  TextAlignment="Center" Text="{Binding UserID}" Grid.Column="0"/>
+                                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Username}"   Grid.Column="1"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding SysID}"   Grid.Column="2"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding State}"   Grid.Column="3"></TextBlock>
+                                   
+                                    <Button Name="btnEditUsername"
+                                                Grid.Column="4" 
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                                                Click="btnEditUsername_Click"
+                                             CommandParameter="{Binding .}"
+                                                >
+                                        <materialDesign:PackIcon Kind="Edit" />
+                                    </Button>
+
+
+                                    <Button Name="btnchangestate"
+                                                Grid.Column="5" 
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                                                Click="Btnchangestate_Click" 
+                                                CommandParameter="{Binding .}"
+                                                >
+                                        <materialDesign:PackIcon Kind="Restart" />
+                                    </Button>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+                <ScrollViewer  Visibility="{Binding ElementName=listMujahedStyle,Path=Visibility}"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ItemsControl   Visibility="Visible"
+                                   x:Name="listMujahedStyle"
+                                    Height="{Binding ElementName=rowshe2,Path=Height}"
+                                    MaxHeight="{Binding ElementName=rowshe2,Path=Height}"
+                                    HorizontalContentAlignment="Stretch"
+                                    Background="White"
+                                   
+                                    ItemsSource="{Binding ElementName=ListUserNames,Path=ItemsSource}">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Padding="5"
+                                                     Margin="5">
+                                    <Grid MinWidth="300"
+                                          Background="#4CFFFFFF">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel  Grid.RowSpan="3">
+
+                                            <materialDesign:Card MinWidth="100"  Padding="2">
+                                                <StackPanel  Background="#800020">
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="{Binding SysID}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="20"
+                                                               FontWeight="Bold"
+                                                               Foreground="White" />
+                                                </StackPanel>
+                                            </materialDesign:Card>
+
+                                          
+                                          
+
+                                            <materialDesign:Card  MinWidth="100" Padding="2">
+                                                <StackPanel  Background="#9acd32">
+                                                    <TextBlock Margin="5,0"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="15"
+                                                               Foreground="Black">
+                                                        
+                                                        
+                                                        <Run Text="{Binding UserID}" />
+
+                                                    </TextBlock>
+
+
+                                                </StackPanel>
+                                            </materialDesign:Card>
+                                        </StackPanel>
+
+
+                                        <CheckBox Margin="10,0" HorizontalContentAlignment="Center"  Grid.Column="1"
+                                                   Grid.RowSpan="3"
+                                                   FontWeight="Bold"
+                                                   FontSize="25"
+                                                   CommandParameter="{Binding .}"
+                                                  Name="chkActive"
+                                                  Unchecked="chkActive_Unchecked"
+                                                  Checked="chkActive_Checked"
+                                                   IsChecked="{Binding StateBool}"
+                                                   Content="{Binding Username}" />
+
+
+
+
+                                        <Grid Visibility="{Binding StateBool,Converter={StaticResource InverseBoolToVisConverter}}" Grid.RowSpan="3">
+                                            <Grid.Background>
+                                                <SolidColorBrush Color="Gray" Opacity=".7"/>
+                                            </Grid.Background> 
+                                        </Grid>
+                                        
+
+                                        <!--<TextBlock Margin="5,0"
+                                                   Grid.RowSpan="3"
+                                                   FontWeight="Bold"
+                                                   Grid.Column="1"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.ColumnSpan="3"
+                                                   Text="{Binding Username}"
+                                                   FontSize="25"
+                                                   VerticalAlignment="Center" />-->
+                                    </Grid>
+                                </materialDesign:Card>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+
+                 
+
+
+
+
+
+
+
+            </Grid>
+
+        </materialDesign:Card>
+
+
+    </Grid>
+</UserControl>

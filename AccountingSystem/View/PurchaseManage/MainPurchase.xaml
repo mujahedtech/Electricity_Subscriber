@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="AccountingSystem.View.PurchaseManage.MainPurchase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountingSystem.View.PurchaseManage"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid Name="ContentGrid"
+              Margin="20"
+              Grid.Column="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition />
+                    <RowDefinition Height="20" />
+
+
+                </Grid.RowDefinitions>
+                <Button Content="فاتورة مشتريات"
+                        Width="142"
+                        Height="30"
+                        Grid.Row="0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Name="btnADD"
+                        Click="btnADD_Click" />
+
+
+                <Border Margin="0"
+                        CornerRadius="3"
+                        Padding="5"
+                        Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+
+                        <Grid Grid.Row="0"
+                              Height="40">
+                            <TextBox Tag="ابحث هنا" />
+
+
+
+
+
+
+
+
+
+
+                        </Grid>
+
+                        <materialDesign:Card Padding="0"
+                                             Grid.Row="2"
+                                             Background="{StaticResource MainElementColor}">
+
+                            <DataGrid Name="DataGridListTrans"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      MouseDoubleClick="DataGridListTrans_MouseDoubleClick">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="التاريخ"
+                                                        Binding="{Binding DateEntered,StringFormat=yyyy/MM/dd}" />
+                                    <DataGridTextColumn Header="القيمة"
+                                                        Binding="{Binding Amount}" />
+                                    <DataGridTextColumn Header="اسم الحساب"
+                                                        Binding="{Binding AccountName}" />
+                                    <DataGridTextColumn Header="الحركة"
+                                                        Binding="{Binding TransactionType}" />
+                                    <DataGridTextColumn Header="المستودع"
+                                                        Binding="{Binding InvName}" />
+                                    <DataGridTextColumn Header="البيان"
+                                                        Binding="{Binding Note}" />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </materialDesign:Card>
+                    </Grid>
+                </Border>
+
+
+            </Grid>
+
+
+            <ContentControl Visibility="Collapsed"
+                            Name="AddContent">
+
+            </ContentControl>
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

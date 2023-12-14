@@ -1,0 +1,1608 @@
+﻿<UserControl x:Class="VehicleApps.Views.Vehicle_Add"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:VehicleApps.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             d:DesignHeight="450"
+             d:DesignWidth="900"
+             FlowDirection="RightToLeft">
+
+
+    <UserControl.Resources>
+        <Style x:Key="ButtonIconStar"
+               TargetType="ToggleButton">
+
+
+
+            <Setter Property="Height"
+                    Value="15" />
+            <Setter Property="Width"
+                    Value="15" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+
+                        <Border Background="Transparent"
+                                Name="border">
+                            <Grid>
+                                
+                            </Grid>
+
+
+                        </Border>
+
+
+
+
+
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsMouseCaptured"
+                                     Value="True">
+
+
+
+
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border"
+                                                             Storyboard.TargetProperty="(Border.Opacity)"
+                                                             From="1"
+                                                             To="0"
+                                                             Duration="0:0:.1"
+                                                             AutoReverse="True" />
+
+
+
+
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border"
+                                                             Storyboard.TargetProperty="(Border.Opacity)"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:.1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+
+
+                            </Trigger>-->
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                               
+
+                                
+                                        
+                            </Trigger>
+
+                            <Trigger Property="IsChecked"
+                                     Value="False">
+                               
+                            </Trigger>
+
+
+                        </ControlTemplate.Triggers>
+
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+
+
+
+
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid>
+            <materialDesign:Card HorizontalAlignment="Center"
+                                 VerticalAlignment="Top"
+                                 Padding="10"
+                                 FontSize="13"
+                                 FontWeight="Bold">
+                <Grid Name="GridMainData">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition />
+
+
+
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="210" />
+                            <ColumnDefinition  Width="180" />
+                            <ColumnDefinition MaxWidth="400" />
+                            <ColumnDefinition Width="180" />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0"
+                                             Margin="10 0 0 0"
+                                             Height="50"
+                                             HorizontalAlignment="Left"
+                                             Padding="5"
+                                             Background="{StaticResource MainElementColor }">
+                            <Grid>
+                                <TextBlock  Style="{StaticResource LBLStyle}"
+                                            Name="lblIDSerial"
+                                            Text="تسلسل آلي"
+                                            VerticalAlignment="Center" />
+                                <materialDesign:Card Margin="100 0 0 0"
+                                                     Height="36"
+                                                     Name="Cardlblserial"
+                                                     HorizontalAlignment="Left"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor}">
+                                    <TextBox IsEnabled="False"
+                                             HorizontalContentAlignment="Center"
+                                             MinWidth="70"
+                                             VerticalAlignment="Center"
+                                             MaxLength="6"
+                                             MaxWidth="70" />
+                                </materialDesign:Card>
+
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1"
+                                             Margin="10 0 0 0"
+                                             Height="50"
+                                             HorizontalAlignment="Left"
+                                             Padding="5"
+                                             Background="{StaticResource MainElementColor }">
+                            <Grid>
+                                <TextBlock  Style="{StaticResource LBLStyle}"
+                                            Name="lblDate"
+                                            Text="التاريخ"
+                                            VerticalAlignment="Center" />
+                                <materialDesign:Card Margin="60 0 0 0"
+                                                     Height="36"
+                                                     HorizontalAlignment="Left"
+                                                     Padding="0 0"
+                                                     Background="{x:Null}">
+
+
+                                    <TextBlock  Style="{StaticResource LBLStyle}"
+                                              
+                                                
+                                                Text="{Binding Source={x:Static sys:DateTime.Now},StringFormat='{}{0:dd/MM/yyyy}'}"
+                                                VerticalAlignment="Center" />
+                                </materialDesign:Card>
+
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="2"
+                                             Margin="10 0 0 0"
+                                             HorizontalAlignment="Left"
+                                             Padding="5"
+                                             Background="{StaticResource MainElementColor }">
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="2" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0"
+                                        Name="btnViewDriverList"
+                                        Click="btnViewDriverList_Click"
+                                        Background="{x:Null}"
+                                        BorderBrush="{x:Null}"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                    <materialDesign:PackIcon  Kind="Update"
+                                                              Foreground="{StaticResource NormalButton}"
+                                                              Width="25"
+                                                              Height="25" />
+                                </Button>
+
+                                <ToggleButton Grid.Column="2"
+                                              IsChecked="False"
+                                              x:Name="btnopendriver"
+                                              Style="{StaticResource StandardButtonToggle}"
+                                              Content="اسم السائق"
+                                              HorizontalAlignment="Left" />
+                                <materialDesign:Card Grid.Column="4"
+                                                     HorizontalAlignment="Left"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor}">
+                                    <TextBox IsReadOnly="True"
+                                             IsReadOnlyCaretVisible="True"
+                                             VerticalContentAlignment="Center"
+                                             MinWidth="260"
+                                             Name="txtdriver"
+                                             Text="{Binding driverName}" />
+                                </materialDesign:Card>
+
+                            </Grid>
+                        </materialDesign:Card>
+
+                        <Button Grid.Column="3"
+                                Background="{StaticResource MainElementColor}"
+                                Foreground="Black"
+                                Margin="10 0"
+                                Content="حفظ "
+                                FontSize="25"
+                                Height="50"
+                                Name="btnSaveVehicle"
+                                Click="btnSaveVehicle_Click"
+                                />
+
+
+                    </Grid>
+                    <Separator Grid.Row="1"
+                               VerticalAlignment="Center"
+                               Height="10" />
+                    <Grid VerticalAlignment="Top"
+                          HorizontalAlignment="Left"
+                          Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition  Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+
+
+
+                        <Grid HorizontalAlignment="Left"
+                              Grid.Column="0"
+                              Margin="5 0 0 0">
+
+                            <StackPanel>
+
+                                <materialDesign:Card Margin="0,0,0,10"
+                                                     Padding="5"
+                                                     Background="{StaticResource MainElementColor}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Text="تسلسل الشركة"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <TextBox Text="{Binding ManualSysId}" />
+                                        </materialDesign:Card>
+
+
+
+
+
+
+
+                                    </Grid>
+
+                                </materialDesign:Card>
+
+
+                                <materialDesign:Card Padding="5"
+                                                     Background="{StaticResource MainElementColor}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90" />
+                                            <ColumnDefinition MinWidth="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+                                            <RowDefinition />
+                                            <RowDefinition Height="5" />
+                                            <RowDefinition />
+                                           
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Text="رقم اللوحة"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <TextBox 
+                                                     Text="{Binding VehicleNumber}" />
+                                        </materialDesign:Card>
+
+
+                                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Text="نوع المركبة"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="2"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <ComboBox Name="cobVehicleClass" IsEditable="True"
+                                                      Text="{Binding VehicleClass}" />
+                                        </materialDesign:Card>
+
+
+
+                                        <TextBlock Style="{StaticResource LBLStyle}"
+                                                   Grid.Row="4"
+                                                   Grid.Column="0"
+                                                   Text="لون المركبة"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="4"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <ComboBox Name="cobVehicleColor" IsEditable="True"
+                                                      Text="{Binding VehicleColor}" />
+                                        </materialDesign:Card>
+
+                                        <TextBlock Style="{StaticResource LBLStyle}"
+                                                   Grid.Row="6"
+                                                   Grid.Column="0"
+                                                   Text="سنة الصنع"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="6"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <ComboBox 
+                                                      Text="{Binding VehicleYear}"
+                                                      IsEditable="True"
+                                                      Name="cobYear"
+                                                      />
+
+
+                                        </materialDesign:Card>
+
+                                        <TextBlock Name="lblCarCat"
+                                                   Style="{StaticResource LBLStyle}"
+                                                   Grid.Row="8"
+                                                   Grid.Column="0"
+                                                   Text="طراز المركبة"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                        <materialDesign:Card  Grid.Row="8"
+                                                              Grid.Column="1"
+                                                              Padding="5 0"
+                                                              Background="{StaticResource MainElementColor2}">
+                                            <ComboBox Name="cobVehicleModel" Text="{Binding VehicleModel}" IsEditable="True"
+                                                      Background="{StaticResource MainElementColor2}" />
+
+
+                                        </materialDesign:Card>
+
+
+
+                                      
+
+
+                                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                                    Grid.Row="10"
+                                                    Grid.Column="0"
+                                                    Text="رقم الهيكل"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center" />
+                                        <materialDesign:Card Grid.Row="10"
+                                                             Grid.Column="1"
+                                                             Padding="5 0"
+                                                             Background="{StaticResource MainElementColor2}">
+                                            <TextBox 
+                                                     Text="{Binding VehicleBodyNumber}" />
+                                        </materialDesign:Card>
+
+
+                                    </Grid>
+
+                                </materialDesign:Card>
+
+
+
+                            </StackPanel>
+
+
+
+                        </Grid>
+
+
+                        <!--<materialDesign:Card Grid.Column="2"
+                                         VerticalAlignment="Top"
+                                         HorizontalAlignment="Center"
+                                         Padding="10"
+                                         Background="{StaticResource MainElementColor }">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="60" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Name="lblDateCarlicensing"
+                                         Grid.Row="0"
+                                         Grid.Column="0"
+                                         Text="انتهاء الترخيص"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Left" />
+                            <materialDesign:Card Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Margin="0 0 0 0"
+                                                 HorizontalAlignment="Center"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <DatePicker PreviewKeyDown="txtIDSerial_KeyDown"
+                                            KeyDown="txtIDSerial_KeyDown"
+                                            Name="txtDateCarlicensing"
+                                            VerticalAlignment="Center"
+                                            SelectedDate="{x:Static sys:DateTime.Now}"
+                                            MinWidth="120"
+                                            MaxWidth="120" />
+                            </materialDesign:Card>
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Name="lblEnginePower"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Text="سعة المحرك"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left" />
+                            <materialDesign:Card Grid.Row="1"
+                                                 Grid.Column="1"
+                                                 Margin="0 10 0 0"
+                                                 Height="50"
+                                                 MinWidth="120"
+                                                 MaxHeight="120"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <Grid>
+                                    <TextBox KeyDown="txtIDSerial_KeyDown"
+                                             PreviewTextInput="txtCarNumber_PreviewTextInput"
+                                             Name="txtEnginePower"
+                                             Text="1500"
+                                             Margin="24 0 0 0"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalContentAlignment="Center" />
+                                    <Button IsTabStop="False"
+                                            Name="btnNumberUp"
+                                            Click="btnNumberUp_Click"
+                                            Margin="2 3 0 0"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Height="20"
+                                            Width="21">
+                                        <materialDesign:PackIcon Kind="ArrowUp"
+                                                                 VerticalAlignment="Center" />
+                                    </Button>
+                                    <Button IsTabStop="False"
+                                            Name="btnNumberDown"
+                                            Click="btnNumberDown_Click"
+                                            Margin="2 0 0 3"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Height="20"
+                                            Width="21">
+                                        <materialDesign:PackIcon Kind="ArrowBottom"
+                                                                 VerticalAlignment="Center" />
+                                    </Button>
+                                </Grid>
+
+                            </materialDesign:Card>
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Name="lblWorkPlace"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Text="مكان العمل"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left" />
+                            <materialDesign:Card Grid.Row="2"
+                                                 Grid.Column="1"
+                                                 Margin="0 10 0 0"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <ComboBox IsEditable="True"
+                                          KeyDown="txtIDSerial_KeyDown"
+                                          Name="txtWorkPlace"
+                                          Background="{StaticResource MainElementColor2}"
+                                          MinWidth="120"
+                                          MaxWidth="120" />
+                            </materialDesign:Card>
+
+
+                        </Grid>
+
+                    </materialDesign:Card>-->
+
+
+
+
+
+                        <StackPanel Grid.Column="2"
+                                    VerticalAlignment="Top">
+                            <materialDesign:Card Grid.Column="2"
+                                                 VerticalAlignment="Top"
+                                                 Padding="10"
+                                                 Background="{StaticResource MainElementColor }">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition />
+
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock  Style="{StaticResource LBLStyle}"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Text="شركة تعبئة الوقود"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                    <materialDesign:Card  Grid.Row="0"
+                                                          Grid.Column="1"
+                                                          Margin="0 0 0 0"
+                                                          HorizontalAlignment="Left"
+                                                          Padding="5 0"
+                                                          Background="{StaticResource MainElementColor2}">
+                                        <ComboBox Text="{Binding FuelSupplierName}" MaxWidth="90"
+                                                  MinWidth="90"
+                                                  SelectedIndex="1"
+                                                  Background="{StaticResource MainElementColor2}">
+                                            <ComboBoxItem Content="الادريس" />
+                                            <ComboBoxItem Content="بترو اب" />
+                                            <ComboBoxItem Content="تعبئة يدوية " />
+                                        </ComboBox>
+                                    </materialDesign:Card>
+
+
+                                    <TextBlock   Style="{StaticResource LBLStyle}"
+                                                 Grid.Row="2"
+                                                 Grid.Column="0"
+                                                 Text="المركبة عليها جهاز تتبع ؟"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+
+                                    <ToggleButton IsChecked="{Binding VehicleHasGPS}" Grid.Row="2"
+                                                  Grid.Column="2"
+                                                  HorizontalAlignment="Left"
+                                                  FlowDirection="LeftToRight"
+                                                  Margin="10 0" />
+
+                                    <!--<StackPanel Grid.Row="2"
+                                                Grid.Column="2"
+                                                Margin="10,0"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal"
+                                                Grid.ColumnSpan="2">
+                                        <RadioButton IsTabStop="False"
+                                                     IsChecked="True"
+                                                     Content="نعم" />
+                                        <RadioButton IsTabStop="False"
+                                                     Content="لا"
+                                                     Margin="10 0 10 0" />
+
+                                    </StackPanel>-->
+
+
+                                    <TextBlock  Style="{StaticResource LBLStyle}"
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Text="مكان العمل"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                    <materialDesign:Card  Grid.Row="4"
+                                                          Grid.Column="1"
+                                                          Margin="0 0 0 0"
+                                                          HorizontalAlignment="Left"
+                                                          Padding="5 0"
+                                                          Background="{StaticResource MainElementColor2}">
+                                        <ComboBox Name="cobVehicleWorkPlace" Text="{Binding VehicleWorkPlace}" MaxWidth="90"
+                                                  MinWidth="90" IsEditable="True"
+                                                  Background="{StaticResource MainElementColor2}">
+
+                                        </ComboBox>
+                                    </materialDesign:Card>
+
+
+                                    <TextBlock   Style="{StaticResource LBLStyle}"
+                                                 Grid.Row="6"
+                                                 Grid.Column="0"
+                                                 Text="حالة المركبة ؟"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+
+                                    <ToggleButton IsChecked="{Binding VehicleStatus}"
+                                                  Grid.Row="6"
+                                                  Grid.Column="2"
+                                                  HorizontalAlignment="Left"
+                                                  FlowDirection="LeftToRight"
+                                                  Margin="10 0" />
+
+                                </Grid>
+
+                            </materialDesign:Card>
+
+                            <materialDesign:Card Margin="0,10,0,0"
+                                                 Padding="5"
+                                                 Background="{StaticResource MainElementColor}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition />
+
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock  Style="{StaticResource LBLStyle}"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Text="شركة التامين"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                                    <materialDesign:Card Grid.Row="0"
+                                                         Grid.Column="1"
+                                                         Padding="5 0"
+                                                         Background="{StaticResource MainElementColor2}">
+                                        <ComboBox Name="cobCompanyInsuranceName" IsEditable="True"
+                                                  Text="{Binding CompanyInsuranceName}" />
+                                    </materialDesign:Card>
+
+
+                                    <TextBlock  Style="{StaticResource LBLStyle}"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Text="بداية تامين"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                                    <materialDesign:Card Grid.Row="2"
+                                                         Grid.Column="1"
+                                                         Padding="5 0"
+                                                         Background="{StaticResource MainElementColor2}">
+                                        <DatePicker VerticalAlignment="Center"
+                                                    SelectedDate="{Binding InsuranceBeginDate}"
+                                                    MinWidth="105"
+                                                    MaxWidth="105" />
+                                    </materialDesign:Card>
+
+
+
+                                    <TextBlock Style="{StaticResource LBLStyle}"
+                                               Grid.Row="4"
+                                               Grid.Column="0"
+                                               Text="نهاية تامين"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                    <materialDesign:Card Grid.Row="4"
+                                                         Grid.Column="1"
+                                                         Padding="5 0"
+                                                         Background="{StaticResource MainElementColor2}">
+                                        <DatePicker VerticalAlignment="Center"
+                                                    SelectedDate="{Binding InsuranceexpiredDate}"
+                                                    MinWidth="105"
+                                                    MaxWidth="105" />
+                                    </materialDesign:Card>
+
+                                    <TextBlock Style="{StaticResource LBLStyle}"
+                                               Grid.Row="6"
+                                               Grid.Column="0"
+                                               Text="نوع التامين"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                    <materialDesign:Card Grid.Row="6"
+                                                         Grid.Column="1"
+                                                         Padding="5 0"
+                                                         Background="{StaticResource MainElementColor2}">
+                                        <ComboBox Text="{Binding InsuranceType}" Name="cobInsuranceType" IsEditable="True" />
+
+
+                                    </materialDesign:Card>
+
+
+                                   
+
+                                </Grid>
+
+                            </materialDesign:Card>
+
+                            
+                            <!--<materialDesign:Card Margin="0,10,0,0"
+                                             Padding="5"
+                                             Background="{StaticResource MainElementColor}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition />
+
+                                </Grid.RowDefinitions>
+
+                                <TextBlock  Style="{StaticResource LBLStyle}"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Text="رقم الهوية او اقامة"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center" />
+                                <materialDesign:Card Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor2}">
+                                    <TextBox Text="" />
+                                </materialDesign:Card>
+
+
+                                <TextBlock  Style="{StaticResource LBLStyle}"
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Text="تاريخ انتهاء الهوية"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center" />
+                                <materialDesign:Card Grid.Row="2"
+                                                     Grid.Column="1"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor2}">
+                                    <DatePicker VerticalAlignment="Center"
+                                                SelectedDate="{x:Static sys:DateTime.Now}"
+                                                MinWidth="105"
+                                                MaxWidth="105" />
+                                </materialDesign:Card>
+
+
+
+                                <TextBlock Style="{StaticResource LBLStyle}"
+                                           Grid.Row="4"
+                                           Grid.Column="0"
+                                           Text="تاريخ انتهاء رخصة القيادة"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <materialDesign:Card Grid.Row="4"
+                                                     Grid.Column="1"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor2}">
+                                    <DatePicker VerticalAlignment="Center"
+                                                SelectedDate="{x:Static sys:DateTime.Now}"
+                                                MinWidth="105"
+                                                MaxWidth="105" />
+                                </materialDesign:Card>
+
+                                <TextBlock   Style="{StaticResource LBLStyle}"
+                                             Grid.Row="6"
+                                             Grid.Column="0"
+                                             Text="هل تم تفويض السائق ؟"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+
+                                <StackPanel Grid.Row="6"
+                                            Grid.Column="2"
+                                            Margin="10,0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Grid.ColumnSpan="2">
+                                    <RadioButton IsTabStop="False"
+                                                 Content="نعم" />
+                                    <RadioButton IsTabStop="False"
+                                                 Content="لا"
+                                                 Margin="10 0 10 0" />
+
+                                </StackPanel>
+
+
+
+                                <TextBlock  Style="{StaticResource LBLStyle}"
+                                            Grid.Row="8"
+                                            Grid.Column="0"
+                                            Text="تاريخ بداية التفويض "
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center" />
+                                <materialDesign:Card Grid.Row="8"
+                                                     Grid.Column="1"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor2}">
+                                    <DatePicker VerticalAlignment="Center"
+                                                SelectedDate="{x:Static sys:DateTime.Now}"
+                                                MinWidth="105"
+                                                MaxWidth="105" />
+                                </materialDesign:Card>
+
+
+
+                                <TextBlock Style="{StaticResource LBLStyle}"
+                                           Grid.Row="10"
+                                           Grid.Column="0"
+                                           Text="تاريخ انتهاء التفويض"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <materialDesign:Card Grid.Row="10"
+                                                     Grid.Column="1"
+                                                     Padding="5 0"
+                                                     Background="{StaticResource MainElementColor2}">
+                                    <DatePicker VerticalAlignment="Center"
+                                                SelectedDate="{x:Static sys:DateTime.Now}"
+                                                MinWidth="105"
+                                                MaxWidth="105" />
+                                </materialDesign:Card>
+
+
+
+                            </Grid>
+
+                        </materialDesign:Card>-->
+
+                        </StackPanel>
+
+
+
+                        <ListBox Name="List1" Background="{StaticResource MaterialDesignPaper}" Width="100" Grid.Column="4"/>
+
+
+
+                        <StackPanel Visibility="Collapsed" Name="EstimaraButtons"  Grid.Column="6" Orientation="Horizontal">
+                            <Button Grid.Column="0"
+                                   Name="btnViewAlestimara" Click="btnViewAlestimara_Click"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    VerticalAlignment="Top"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                <materialDesign:PackIcon  Kind="Update"
+                                                          Foreground="{StaticResource NormalButton}"
+                                                          Width="25"
+                                                          Height="25" />
+                            </Button>
+
+                            <ToggleButton Height="40" VerticalAlignment="Top"
+                                         Click="btnopendata_Click"
+                                          IsChecked="False"
+                                          x:Name="btnopendata"
+                                          Style="{StaticResource StandardButtonToggle}"
+                                          Content="اضافة فحص المركبة"
+                                          HorizontalAlignment="Left" />
+
+                        </StackPanel>
+                        
+                       
+
+                        <!--<materialDesign:Card  Grid.Column="6"
+                                          
+                                          Padding="10"
+                                          Background="{StaticResource MainElementColor }">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition MinWidth="120" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                        
+
+
+                            </Grid.RowDefinitions>
+
+                           
+
+
+
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                      
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="شركة التامين"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <ComboBox  IsEditable="True"
+                                           
+                                           Background="{StaticResource MainElementColor2}">
+
+                                </ComboBox>
+                            </materialDesign:Card>
+
+                            <TextBlock
+                                        Style="{StaticResource LBLStyle}"
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Text="نوع التامين"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="2"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <ComboBox IsEditable="True"
+                                          
+                                          Background="{StaticResource MainElementColor2}">
+                                    <ComboBoxItem Content="شامل" />
+                                    <ComboBoxItem Content="ضد الغير" />
+                                </ComboBox>
+                            </materialDesign:Card>
+
+                            <TextBlock Style="{StaticResource LBLStyle}"
+                                       Grid.Row="4"
+                                       Grid.Column="0"
+                                       Text="بداية التأمين"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+                            <materialDesign:Card Grid.Row="4"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <DatePicker IsTabStop="True"
+                                            SelectedDate="{x:Static sys:DateTime.Now}" />
+                            </materialDesign:Card>
+
+
+                            <TextBlock 
+                                       Style="{StaticResource LBLStyle}"
+                                       Grid.Row="6"
+                                       Grid.Column="0"
+                                       Text="انتهاء التأمين"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+                            <materialDesign:Card Grid.Row="6"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <DatePicker IsTabStop="True"
+                                           
+                                            SelectedDate="{x:Static sys:DateTime.Now}"
+                                             />
+                            </materialDesign:Card>
+
+
+
+                            <StackPanel  Grid.Row="8"
+                                         Grid.ColumnSpan="2" Orientation="Horizontal">
+
+
+
+                                <TextBlock   Style="{StaticResource LBLStyle}"
+                                             Grid.Row="8"
+                                             Grid.ColumnSpan="2"
+                                             Text="المركبة عليها جهاز تتبع ؟ "
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" />
+
+                                <StackPanel Margin="10,0" VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Grid.Row="10"
+                                            Grid.ColumnSpan="2">
+                                    <RadioButton IsTabStop="False"
+                                                
+                                                 IsChecked="True"
+                                                 Content="نعم" />
+                                    <RadioButton IsTabStop="False"
+                                                
+                                                 Content="لا"
+                                                 Margin="10 0 10 0" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+                            
+                           
+
+                           
+
+
+
+
+                        </Grid>
+
+                    </materialDesign:Card>-->
+
+                    </Grid>
+
+
+
+
+                </Grid>
+
+            </materialDesign:Card>
+
+
+            <!--#region  driver-->
+            <!--<Grid Visibility="{Binding ElementName=btnopendriver,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
+                  Background="Gray"
+                  Opacity=".5" />-->
+            <Popup AllowsTransparency="True"
+                   PopupAnimation="Slide"
+                   Placement="Center"
+                   StaysOpen="False"
+                   IsOpen="{Binding ElementName=btnopendriver,Path=IsChecked}">
+
+
+                <materialDesign:Card Margin="0,10,0,0"
+                                     x:Name="CardAddDriver"
+                                     Padding="5"
+                                     Background="{StaticResource MainElementColor}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+                            <RowDefinition Height="5" />
+                            <RowDefinition />
+
+
+                        </Grid.RowDefinitions>
+
+                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Text="رقم الهوية او اقامة"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                        <materialDesign:Card Grid.Row="0"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <TextBox Text="{Binding DriverCardNumber}" />
+                        </materialDesign:Card>
+
+
+                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Text="تاريخ انتهاء الهوية"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                        <materialDesign:Card Grid.Row="2"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <DatePicker VerticalAlignment="Center"
+                                        SelectedDate="{Binding DriverCardExpired}"
+                                        MinWidth="105"
+                                        MaxWidth="105" />
+                        </materialDesign:Card>
+
+
+
+                        <TextBlock Style="{StaticResource LBLStyle}"
+                                   Grid.Row="4"
+                                   Grid.Column="0"
+                                   Text="تاريخ انتهاء رخصة القيادة"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <materialDesign:Card Grid.Row="4"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <DatePicker VerticalAlignment="Center"
+                                        SelectedDate="{Binding DriverLicenseExpired}"
+                                        MinWidth="105"
+                                        MaxWidth="105" />
+                        </materialDesign:Card>
+
+                        <TextBlock   Style="{StaticResource LBLStyle}"
+                                     Grid.Row="6"
+                                     Grid.Column="0"
+                                     Text="هل تم تفويض السائق ؟"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center" />
+
+                        <ToggleButton Grid.Row="6"
+                                      Grid.Column="2"
+                                      FlowDirection="LeftToRight"
+                                      HorizontalAlignment="Left"
+                                      IsChecked="{Binding DriverDelegateAvailable}" />
+
+
+
+                        <TextBlock  Style="{StaticResource LBLStyle}"
+                                    Grid.Row="8"
+                                    Grid.Column="0"
+                                    Text="تاريخ بداية التفويض "
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
+                        <materialDesign:Card Grid.Row="8"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <DatePicker VerticalAlignment="Center"
+                                        SelectedDate="{Binding DriverDelegateBegin}"
+                                        MinWidth="105"
+                                        MaxWidth="105" />
+                        </materialDesign:Card>
+
+
+
+                        <TextBlock Style="{StaticResource LBLStyle}"
+                                   Grid.Row="10"
+                                   Grid.Column="0"
+                                   Text="تاريخ انتهاء التفويض"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <materialDesign:Card Grid.Row="10"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <DatePicker VerticalAlignment="Center"
+                                        SelectedDate="{Binding DriverDelegateExpired}"
+                                        MinWidth="105"
+                                        MaxWidth="105" />
+                        </materialDesign:Card>
+
+                        <TextBlock Style="{StaticResource LBLStyle}"
+                                   Grid.Row="12"
+                                   Grid.Column="0"
+                                   Text="اسم السائق"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <materialDesign:Card Grid.Row="12"
+                                             Grid.Column="1"
+                                             Padding="5 0"
+                                             Background="{StaticResource MainElementColor2}">
+                            <TextBox Text="{Binding DriverName}" />
+                        </materialDesign:Card>
+
+
+                        <Button Click="btnDriverAdd_Click"
+                                Name="btnDriverAdd"
+                                Content="اضافة سائق"
+                                Grid.Row="14"
+                                Grid.Column="2" />
+
+
+
+                    </Grid>
+
+                </materialDesign:Card>
+
+
+
+            </Popup>
+
+
+            <!--#endregion-->
+
+
+
+
+
+            <!--#region  data-->
+            <Grid Visibility="{Binding ElementName=btnopendata,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}}"
+                  Background="Gray"
+                  Opacity=".5" />
+            <Popup AllowsTransparency="True"
+                   PopupAnimation="Slide"
+                   Placement="Center"
+                   StaysOpen="False" Name="popTest"
+                   IsOpen="{Binding ElementName=btnopendata,Path=IsChecked}">
+
+
+                <StackPanel Name="CardTestVehicle" Orientation="Horizontal">
+                    <materialDesign:Card  Grid.Column="2"
+                                         VerticalAlignment="Top"
+                                         Padding="10"
+                                         Background="{StaticResource MainElementColor }">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+
+
+                            </Grid.RowDefinitions>
+
+
+
+                            <TextBlock  Style="{StaticResource LBLStyle}"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Text="تاريخ الاستمارة"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" />
+                            <materialDesign:Card Grid.Row="0"
+                                                 Grid.Column="1"
+                                                 Padding="5 0"
+                                                 Background="{StaticResource MainElementColor2}">
+                                <DatePicker VerticalAlignment="Center"
+                                            SelectedDate="{Binding TestDate}"
+                                            MinWidth="105"
+                                            MaxWidth="105" />
+                            </materialDesign:Card>
+
+
+
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="2"
+                                         Grid.Column="0"
+                                         Text="هل يوجد شريحة تعبئة ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding HaveFuelCard}"
+                                          Grid.Row="2"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="4"
+                                         Grid.Column="0"
+                                         Text="هل يوجد شهادة TUV ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding HaveTuvCertification}"
+                                          Grid.Row="4"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="6"
+                                         Grid.Column="0"
+                                         Text="هل يوجد QR فحص نيوم ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding HaveQrTest}"
+                                          Grid.Row="6"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+
+                        </Grid>
+
+                    </materialDesign:Card>
+
+
+
+                    <materialDesign:Card Margin="10,0"
+                                         Grid.Column="4"
+                                         VerticalAlignment="Top"
+                                         Padding="10"
+                                         Background="{StaticResource MainElementColor }">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+                                <RowDefinition Height="10" />
+                                <RowDefinition />
+
+
+                            </Grid.RowDefinitions>
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="0"
+                                         Grid.Column="0"
+                                         Text="هل يوجد قبعة سلامة ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion1}"
+                                          Grid.Row="0"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="2"
+                                         Grid.Column="0"
+                                         Text="هل يوجد سترة وقائية ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion2}"
+                                          Grid.Row="2"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="4"
+                                         Grid.Column="0"
+                                         Text="هل يوجد حذاء سيفتي ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion3}"
+                                          Grid.Row="4"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+                           
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="6"
+                                         Grid.Column="0"
+                                         Text="هل يوجد طفاية حريق ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion4}"
+                                          Grid.Row="6"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+                            
+                            
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="8"
+                                         Grid.Column="0"
+                                         Text="هل يوجد شنطة اسعافات اولية ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         TextWrapping="Wrap" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion5}"
+                                          Grid.Row="8"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="10"
+                                         Grid.Column="0"
+                                         Text="هل يوجد مثلث الطوارىء ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion6}"
+                                          Grid.Row="10"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+                            
+                            
+
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="12"
+                                         Grid.Column="0"
+                                         Text="هل يوجد ريفيرس الارم ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion7}"
+                                          Grid.Row="12"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+                            
+                            
+                            <TextBlock   Style="{StaticResource LBLStyle}"
+                                         Grid.Row="14"
+                                         Grid.Column="0"
+                                         Text="هل يوجد لواح انارة ؟"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding TestQustion8}"
+                                          Grid.Row="14"
+                                          Grid.Column="2"
+                                          HorizontalAlignment="Left"
+                                          FlowDirection="LeftToRight"
+                                          Margin="10 0" />
+
+                        </Grid>
+
+                    </materialDesign:Card>
+
+                    <Button Grid.Column="3"
+                            Background="{StaticResource MainElementColor}"
+                            Foreground="Black"
+                            Margin="10 0"
+                            Content="حفظ الاستمارة"
+                            FontSize="25"
+                            Height="50"
+                            Name="btnSaveAlestimara"
+                            Click="btnSaveAlestimara_Click" />
+
+
+                </StackPanel>
+
+
+            </Popup>
+
+
+            <!--#endregion-->
+
+
+
+
+
+            <Grid Visibility="{Binding ElementName=popData,Path=IsOpen,Converter={StaticResource BooleanToVisibilityConverter}}"
+                  Background="Gray"
+                  Opacity=".5" />
+            <Popup AllowsTransparency="True"
+                   PopupAnimation="Slide"
+                   Placement="Center"
+                   StaysOpen="False"
+                   IsOpen="False"
+                   Name="popData">
+
+
+
+                <DataGrid Name="DataGridDrivers"
+                          IsReadOnly="True"
+                          Visibility="Visible">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick"
+                                         Handler="DataGridRow_MouseDoubleClick" />
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+
+            </Popup>
+
+
+
+
+
+            <Grid Visibility="{Binding ElementName=popTestGrid,Path=IsOpen,Converter={StaticResource BooleanToVisibilityConverter}}"
+                  Background="Gray"
+                  Opacity=".5" />
+            <Popup AllowsTransparency="True"
+                   PopupAnimation="Slide"
+                   Placement="Center"
+                   StaysOpen="False"
+                   IsOpen="False"
+                   Name="popTestGrid">
+
+
+
+                <DataGrid Name="DataGridTest"
+                          IsReadOnly="True"
+                          Visibility="Visible">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick"
+                                         Handler="TestData_MouseDoubleClick_1" />
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+
+            </Popup>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

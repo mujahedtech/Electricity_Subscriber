@@ -1,0 +1,39 @@
+﻿<Application x:Class="Mujahed_Package.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Mujahed_Package"
+             xmlns:sys ="clr-namespace:System;assembly=mscorlib"
+             StartupUri="SecoundWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            
+            <!--Old Color-->
+            <!--<SolidColorBrush x:Key="MainColor">#FF22849C</SolidColorBrush>-->
+
+            <!--<SolidColorBrush x:Key="MainColor">#B4BAB4</SolidColorBrush>-->
+
+            <!--<SolidColorBrush x:Key="MainColor">#778899</SolidColorBrush>-->
+            <SolidColorBrush x:Key="MainColor">#485460</SolidColorBrush>
+
+
+            <SolidColorBrush x:Key="MainTextColor" >Black</SolidColorBrush>
+            <SolidColorBrush x:Key="BlueCyan">#FF90CAF9</SolidColorBrush>
+            <SolidColorBrush x:Key="MainElementColor">#FFEAEAEA</SolidColorBrush>
+            
+
+
+
+
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
