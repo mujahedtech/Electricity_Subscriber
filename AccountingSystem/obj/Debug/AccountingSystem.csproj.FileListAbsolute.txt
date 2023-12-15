@@ -146,3 +146,7 @@ E:\C#\AccountingSystem\obj\Debug\View\NajahEpic\DebitManage.baml
 E:\C#\AccountingSystem\obj\Debug\View\NajahEpic\NajahMain.baml
 E:\C#\AccountingSystem\obj\Debug\View\PurchaseManage\AddPurchase.baml
 E:\C#\AccountingSystem\obj\Debug\View\PurchaseManage\MainPurchase.baml
+E:\C#\AccountingSystem\obj\Debug\View\SheepManage\MainSheep.g.cs
+E:\C#\AccountingSystem\obj\Debug\View\SheepManage\MainSheep.baml
+E:\C#\AccountingSystem\obj\Debug\View\GasManage\GasReports.g.cs
+E:\C#\AccountingSystem\obj\Debug\View\GasManage\GasReports.baml

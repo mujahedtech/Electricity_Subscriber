@@ -1,5 +1,4 @@
-﻿using Microsoft.Reporting.WinForms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,28 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AccountingSystem.Reports
+namespace AccountingSystem.View.GasManage
 {
     /// <summary>
-    /// Interaction logic for MainReportsWindow.xaml
+    /// Interaction logic for GasReports.xaml
     /// </summary>
-    public partial class MainReportsWindow : Window
+    public partial class GasReports : UserControl
     {
-        public MainReportsWindow()
+        public GasReports()
         {
             InitializeComponent();
-
-            Loaded += MainReportsWindow_Loaded;
-        }
-
-
-       
-
-        private void MainReportsWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            ReportViewer.SetDisplayMode(DisplayMode.PrintLayout);
-
-
         }
     }
 }

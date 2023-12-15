@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AccountingSystem.View.NajahEpic
+namespace AccountingSystem.View.SheepManage
 {
     /// <summary>
-    /// Interaction logic for NajahMain.xaml
+    /// Interaction logic for MainSheep.xaml
     /// </summary>
-    public partial class NajahMain : UserControl
+    public partial class MainSheep : UserControl
     {
-        public NajahMain()
+        public MainSheep()
         {
             InitializeComponent();
         }
@@ -39,28 +39,32 @@ namespace AccountingSystem.View.NajahEpic
             {
                 case 0:
                     GridMain.Children.Clear();
-                    GridMain.Children.Add(new NajahEpic.DailyTransaction());
+                    GridMain.Children.Add(new PurchaseManage.MainPurchase(accountTrans: App.AccountTrans.Purchase));
 
 
 
                     break;
                 case 1:
                     GridMain.Children.Clear();
-                    GridMain.Children.Add(new NajahEpic.DebitManage());
-
+                    GridMain.Children.Add(new PurchaseManage.MainPurchase(accountTrans: App.AccountTrans.Sales));
                     break;
                 case 2:
                     GridMain.Children.Clear();
-                    GridMain.Children.Add(new Reports.MainReports());
+
+
                     break;
                 case 3:
+                    GridMain.Children.Clear();
 
                     break;
                 case 4:
                     GridMain.Children.Clear();
+
                     break;
                 case 5:
                     GridMain.Children.Clear();
+
+
                     break;
                 case 6:
                     GridMain.Children.Clear();
@@ -71,5 +75,4 @@ namespace AccountingSystem.View.NajahEpic
         }
 
     }
-
 }

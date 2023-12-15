@@ -202,7 +202,7 @@ namespace AccountingSystem.View.ManageAccounts.Definition
 
             GetData();
 
-            //App.UpdateList();
+            App.UpdateList();
 
 
         }

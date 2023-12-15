@@ -120,7 +120,7 @@ namespace AccountingSystem.View.ManageAccounts
                            Date = em.DateEntered,
                            TransType = em.TransactionType,
                            Note = em.Note,
-                           Debit = em.TransType == 2 || em.TransType == 4 ? em.Amount : 0,
+                           Debit = em.TransType == 2 || em.TransType == 4 || em.TransType == 5 ? em.Amount : 0,
                            Credit = em.TransType == 3 || em.TransType == 1 ? em.Amount : 0,
 
 
@@ -140,7 +140,7 @@ namespace AccountingSystem.View.ManageAccounts
        
         private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
         {
-            var Result = new SubView.SelectAccount();
+            var Result = new SubView.SelectAccount(App.AccountList.ToList());
 
             
 

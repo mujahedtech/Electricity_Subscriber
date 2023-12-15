@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountingSystem.View.ManageAccounts.Transaction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,12 @@ namespace AccountingSystem.View.ManageAccounts
             InitializeComponent();
         }
 
+
+
+
+
+     
+              
         private void btnMainButtons(object sender, RoutedEventArgs e)
         {
 
@@ -39,13 +46,15 @@ namespace AccountingSystem.View.ManageAccounts
             {
                 case 0:
                     GridMain.Children.Clear();
-                    GridMain.Children.Add(new PurchaseManage.MainPurchase());
+                    GridMain.Children.Add(new PurchaseManage.MainPurchase(accountTrans:App.AccountTrans.Purchase));
 
 
 
                     break;
                 case 1:
                     GridMain.Children.Clear();
+
+                   
                     GridMain.Children.Add(new ManageAccounts.Transaction.RecepitManage());
 
                     break;

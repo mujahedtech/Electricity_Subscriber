@@ -16,18 +16,20 @@ namespace AccountingSystem
     public partial class App : Application
     {
 
-        public static DbContext dbContext;
+      
 
 
         //نوع الحساب عند تعريفة بشجرة الحسابات
+
+        //                          0      1        2        3          4              5            6
         public enum AccountType { Zero, Vendor, Customer, Expense, Acc_Account, PeronalAccount, GasBalance }
 
         //نوع الحركة مثال شراء مصاريف سند قبض
 
         //A_R يعني قيد دين حدا اخذ من الملحمة مثلا على الدين
 
-        //                           0       1        2        3       4
-        public enum AccountTrans { Zero, Purchase, Expense, Revenue, A_R }
+        //                           0       1        2        3       4    5
+        public enum AccountTrans { Zero, Purchase, Expense, Revenue, A_R ,Sales}
 
 
         public static string GetAccountTransStr(int id)
@@ -52,6 +54,10 @@ namespace AccountingSystem
                     str = "شراء بالدين";
 
                     break;
+                case 5:
+                    str = "مبيعات";
+
+                    break;
             }
             return str;
         }
@@ -61,7 +67,7 @@ namespace AccountingSystem
         public static List<Inventory> InventoryList;
         protected override async void OnStartup(StartupEventArgs e)
         {
-            dbContext = new DbContext();
+           
 
 
 
@@ -99,7 +105,7 @@ namespace AccountingSystem
             InventoryList = await new Models.Repositories.InventoryRepository().List();
 
 
-            if (InventoryList.Count == 0)
+            if (InventoryList.ToList().Count == 0)
             {
                 List<Inventory> InventoryDefault = new List<Inventory>();
 
@@ -111,13 +117,13 @@ namespace AccountingSystem
                 await new Models.Repositories.InventoryRepository().Add(InventoryDefault);
             }
 
-
+            
 
             base.OnStartup(e);
         }
 
 
-        public async void UpdateList()
+        public static async  void UpdateList()
         {
             CatList = await new Models.Repositories.CategoriesRepository().List();
             AccountList = await new Models.Repositories.AccountsTableRepository().List();

@@ -71,28 +71,19 @@
                     </materialDesign:Card>
 
 
-                    <TextBlock  Style="{StaticResource LBLStyle}"
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Text="الكمية"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
-                    <TextBox Grid.Row="2"
-                             Grid.Column="1"
+                  
+                    <TextBox Tag="الكمية" Grid.Row="2"
+                             Grid.Column="0" Grid.ColumnSpan="2"
                              Name="txtQty"
                              Text="{Binding VehicleClass}" />
 
 
 
-                    <TextBlock Style="{StaticResource LBLStyle}"
-                               Grid.Row="4"
-                               Grid.Column="0"
-                               Text="السعر"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center" />
-                    <TextBox Name="txtPrice"
+                  
+                    <TextBox Tag="السعر" Name="txtPrice"
                              Grid.Row="4"
-                             Grid.Column="1"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
                              Text="{Binding VehicleColor}" />
 
 
@@ -125,6 +116,7 @@
                         <ColumnDefinition Width="90" />
                         <ColumnDefinition MinWidth="100" />
 
+                        <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="auto" />
 
                     </Grid.ColumnDefinitions>
@@ -143,7 +135,7 @@
                     <TextBlock  Style="{StaticResource LBLStyle}"
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="اسم المورد"
+                                Text="الحساب"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center" />
                     <materialDesign:Card Grid.Row="0"
@@ -158,6 +150,16 @@
                     </materialDesign:Card>
 
 
+                    <Button Style="{StaticResource IconButton}"
+                            Content="{StaticResource AccountSearch}"
+                            Grid.Column="3"
+                            HorizontalAlignment="Right"
+                            Name="btnSelectAccount"
+                            Click="btnSelectAccount_Click" />
+
+
+
+
                     <TextBlock  Style="{StaticResource LBLStyle}"
                                 Grid.Row="2"
                                 Grid.Column="0"
@@ -167,6 +169,7 @@
                     <materialDesign:Card Grid.Row="2"
                                          Grid.Column="1"
                                          Padding="5 0"
+                                         IsEnabled="False"
                                          Background="{StaticResource MainElementColor2}">
                         <ComboBox Name="CobInv"
                                   SelectedValuePath="Id"
@@ -186,13 +189,36 @@
 
 
 
+                  
 
-                    <Button Grid.Row="8"
-                            Grid.ColumnSpan="3"
-                            Content="حفظ الفاتورة"
-                            HorizontalAlignment="Center"
-                            Name="InsertPurchase"
-                            Click="InsertPurchase_Click" />
+                   
+
+                    <Grid  Grid.Row="8"
+                           Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
+
+                        <Button Background="DarkRed"
+                                Grid.Column="0"
+                                Content="خروج"
+                                Foreground="White"
+                                Name="btnClose"
+                                Click="btnClose_Click" />
+
+                        <Button  Grid.Column="2" Content="حفظ الفاتورة"
+                                HorizontalAlignment="Center"
+                                Name="InsertPurchase"
+                                Click="InsertPurchase_Click" />
+
+                    </Grid>
+
+
+
 
 
 

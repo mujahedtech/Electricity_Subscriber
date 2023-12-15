@@ -1,4 +1,5 @@
 ﻿using AccountingSystem.Models;
+using AccountingSystem.SubView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,11 +38,15 @@ namespace AccountingSystem.View.PurchaseManage
         ObservableCollection<PurchaseListVM> LocalPurchase;
         TransactionAccounting InsertData;
 
-        public AddPurchase()
+
+        App.AccountTrans AccountTrans;
+        public AddPurchase(App.AccountTrans accountTrans)
         {
             InitializeComponent();
 
             Loaded += AddPurchase_Loaded;
+
+            AccountTrans = accountTrans;
 
             LocalPurchase = new ObservableCollection<PurchaseListVM>();
             GuidTrans = Guid.NewGuid();
@@ -50,7 +55,7 @@ namespace AccountingSystem.View.PurchaseManage
 
             InsertData = new TransactionAccounting();
         }
-        public AddPurchase(TransactionAccounting transaction)
+        public AddPurchase(TransactionAccounting transaction, App.AccountTrans accountTrans)
         {
             InitializeComponent();
 
@@ -83,6 +88,8 @@ namespace AccountingSystem.View.PurchaseManage
 
             InsertData = transaction;
 
+            AccountTrans = accountTrans;
+
             MessageBox.Show("حركة تعديل");
 
 
@@ -103,7 +110,11 @@ namespace AccountingSystem.View.PurchaseManage
             CobInv.ItemsSource = App.InventoryList.ToList();
 
 
-            CobVendor.ItemsSource = App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Vendor).ToList();
+            if ((int)AccountTrans == (int)App.AccountTrans.Purchase) CobVendor.ItemsSource = App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Vendor|| i.idclassAccount == (int)App.AccountType.Acc_Account).ToList();
+            else if ((int)AccountTrans == (int)App.AccountTrans.Sales) CobVendor.ItemsSource = App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Customer || i.idclassAccount == (int)App.AccountType.Acc_Account).ToList();
+
+
+
 
 
 
@@ -196,7 +207,7 @@ namespace AccountingSystem.View.PurchaseManage
             ValidControlData(CobCat);
 
             ValidControlData(CobVendor);
-            ValidControlData(CobInv);
+           
 
 
 
@@ -209,7 +220,7 @@ namespace AccountingSystem.View.PurchaseManage
                 IdForTransaction = GuidTrans,
                 Price = double.Parse(txtPrice.Text),
                 Qty = double.Parse(txtQty.Text),
-                InventoryId = CobInv.SelectedValue.GetHashCode(),
+                InventoryId = 0,
                 VendorId = CobVendor.SelectedValue.GetHashCode(),
             });
 
@@ -253,28 +264,10 @@ namespace AccountingSystem.View.PurchaseManage
 
 
 
-            if (CobVendor.SelectedIndex == -1)
-            {
-                var TextBox = CobVendor;
+            ValidControlData(CobVendor);
+          
 
-                TextBox.BorderBrush = ErrorColor;
-                TextBox.ToolTip = GetErrorMessage(TextBox);
-
-                ValidCounter += 1;
-
-            }
-
-            if (CobInv.SelectedIndex == -1)
-            {
-                var TextBox = CobInv;
-
-                TextBox.BorderBrush = ErrorColor;
-                TextBox.ToolTip = GetErrorMessage(TextBox);
-
-                ValidCounter += 1;
-
-            }
-
+           
 
 
             if (ValidCounter != 0) return;
@@ -284,8 +277,8 @@ namespace AccountingSystem.View.PurchaseManage
             InsertData.AccountId = CobVendor.SelectedValue.GetHashCode();
             InsertData.TransId = GuidTrans;
             InsertData.Amount = LocalPurchase.Sum(i => i.Total);
-            InsertData.TransType = App.AccountTrans.Purchase.GetHashCode();
-            InsertData.InventoryId = CobInv.SelectedValue.GetHashCode();
+            InsertData.TransType = (int)AccountTrans;
+            InsertData.InventoryId = 0;
             InsertData.VendorId = CobVendor.SelectedValue.GetHashCode();
 
 
@@ -324,6 +317,7 @@ namespace AccountingSystem.View.PurchaseManage
             await new Models.Repositories.PurchaseListRepository().Add(Convert.ToList());
 
             MainPurchase.Instance.AddContent.Content = null;
+            MainPurchase.Instance.GetDataTrans();
 
         }
 
@@ -334,6 +328,43 @@ namespace AccountingSystem.View.PurchaseManage
                 LocalPurchase.Remove((PurchaseListVM)ListPurchaseDataGrid.SelectedItem);
                 ListPurchaseDataGrid.ItemsSource = LocalPurchase;
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            MainPurchase.Instance.AddContent.Content = null;
+        }
+
+        private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
+        {
+            SelectAccount Result = new SelectAccount();
+
+            if ((int)AccountTrans == (int)App.AccountTrans.Purchase)
+                Result=new SelectAccount( App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Vendor || i.idclassAccount == (int)App.AccountType.Acc_Account).ToList());
+           
+            
+            else if ((int)AccountTrans == (int)App.AccountTrans.Sales)
+                Result = new SelectAccount(App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Customer || i.idclassAccount == (int)App.AccountType.Acc_Account).ToList());
+
+
+
+            
+
+
+
+
+            Result.ShowInTaskbar = false;
+            Result.Owner = Application.Current.MainWindow;
+            Result.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            Result.Width = Application.Current.MainWindow.ActualWidth;
+            Result.Height = Application.Current.MainWindow.ActualHeight;
+
+            Result.ShowDialog();
+
+
+
+            CobVendor.SelectedItem = Result.AccountsSelected();
         }
     }
 }

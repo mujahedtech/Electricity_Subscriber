@@ -24,6 +24,8 @@ namespace AccountingSystem
         {
             InitializeComponent();
 
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+
             Loaded += MainWindow_Loaded;
         }
 
@@ -78,6 +80,8 @@ namespace AccountingSystem
                     break;
                 case 4:
                     GridMain.Children.Clear();
+                    GridMain.Children.Add(new View.SheepManage.MainSheep());
+
                     break;
                 case 5:
                     GridMain.Children.Clear();
@@ -116,7 +120,7 @@ namespace AccountingSystem
                     WindowState = WindowState.Minimized;
                     break;
                 case 3:
-                    //App.UpdateList();
+                    App.UpdateList();
 
                     break;
                 case 4:

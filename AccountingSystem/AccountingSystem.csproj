@@ -145,6 +145,9 @@
     <Compile Include="View\GasManage\GasCylinderInventory.xaml.cs">
       <DependentUpon>GasCylinderInventory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GasManage\GasReports.xaml.cs">
+      <DependentUpon>GasReports.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GasManage\MainGasManage.xaml.cs">
       <DependentUpon>MainGasManage.xaml</DependentUpon>
     </Compile>
@@ -192,6 +195,9 @@
     </Compile>
     <Compile Include="View\PurchaseManage\MainPurchase.xaml.cs">
       <DependentUpon>MainPurchase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SheepManage\MainSheep.xaml.cs">
+      <DependentUpon>MainSheep.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -250,6 +256,10 @@
     <Page Include="View\GasManage\GasCylinderInventory.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GasManage\GasReports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GasManage\MainGasManage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -314,6 +324,10 @@
     <Page Include="View\PurchaseManage\MainPurchase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SheepManage\MainSheep.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

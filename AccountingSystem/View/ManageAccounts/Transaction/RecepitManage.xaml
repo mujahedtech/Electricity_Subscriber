@@ -8,7 +8,10 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
+             >
+   
     <Grid>
         <Grid>
             <Grid Name="ContentGrid"
@@ -22,7 +25,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition MinWidth="270" Width="auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -43,10 +46,12 @@
                                          Background="{StaticResource MainElementColor}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="60" />
                                 <ColumnDefinition MinWidth="100" />
 
-                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="20" />
+
 
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -66,9 +71,14 @@
                             <TextBlock  Style="{StaticResource LBLStyle}"
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Text="اسم الحساب"
+                                        Text="الحساب"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center" />
+                            
+                            
+                            
+                            
+                            
                             <materialDesign:Card Grid.Row="0"
                                                  Grid.Column="1"
                                                  Padding="5 0"
@@ -80,19 +90,32 @@
                                           IsEditable="True" />
                             </materialDesign:Card>
 
+
+                            <Button Style="{StaticResource IconButton}"
+                                    Content="{StaticResource AccountSearch}"
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Right"
+                                    Name="btnSelectAccount"
+                                   Click="btnSelectAccount_Click" />
+
+
+
+
                             <TextBlock  Style="{StaticResource LBLStyle}"
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Text="الصندوق"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center" />
-                            <materialDesign:Card Grid.Row="2"
+                            <materialDesign:Card IsEnabled="False" Grid.Row="2"
                                                  Grid.Column="1"
                                                  Padding="5 0"
                                                  Background="{StaticResource MainElementColor2}">
                                 <ComboBox Name="txtCashHouse"
+                                         
                                           Text="{Binding VehicleNumber}"
                                           SelectedValuePath="Id"
+                                          
                                           DisplayMemberPath="InvName" />
                             </materialDesign:Card>
 
@@ -171,8 +194,8 @@
 
                             <Grid Grid.Row="0"
                                   Height="40">
-                                <TextBox Uid="ابحث هنا"
-                                         Style="{StaticResource EntryNewWithHint}"
+                                <TextBox Tag="ابحث هنا"
+                                        
                                          Text="{Binding Searchtirelbl,UpdateSourceTrigger=PropertyChanged}" />
 
 

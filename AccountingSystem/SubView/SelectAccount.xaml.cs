@@ -24,14 +24,26 @@ namespace AccountingSystem.SubView
         {
             InitializeComponent();
 
-            Loaded += SelectAccount_Loaded;
+            Close();
         }
 
-        private void SelectAccount_Loaded(object sender, RoutedEventArgs e)
+        List<AccountsTable> Accounts;
+        public SelectAccount(List<AccountsTable> accounts)
         {
-            ListAccount.ItemsSource = App.AccountList.ToList();
+            InitializeComponent();
 
+            Accounts = accounts;
+
+            ListAccount.ItemsSource = Accounts;
         }
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) Close();
+            base.OnKeyUp(e);
+        }
+
+
+      
 
         public AccountsTable AccountsSelected()
         {
@@ -53,7 +65,7 @@ namespace AccountingSystem.SubView
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var SearchList = App.AccountList.ToList();
+            var SearchList = Accounts;
 
             SearchList = SearchList.Where(i => i.AccountName.Contains(txtSearch.Text)).ToList();
 

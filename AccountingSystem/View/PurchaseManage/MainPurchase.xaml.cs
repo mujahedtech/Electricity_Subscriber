@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static AccountingSystem.App;
 
 namespace AccountingSystem.View.PurchaseManage
 {
@@ -23,7 +24,7 @@ namespace AccountingSystem.View.PurchaseManage
 
         public string TransactionType { get => App.GetAccountTransStr(TransType); }
 
-        public string InvName { get => App.InventoryList.Where(i => i.Id == InventoryId).FirstOrDefault().InvName; }
+        //public string InvName { get => App.InventoryList.Where(i => i.Id == InventoryId).FirstOrDefault()==null? App.InventoryList.Where(i => i.Id == InventoryId).FirstOrDefault().InvName:null; }
 
 
 
@@ -35,21 +36,38 @@ namespace AccountingSystem.View.PurchaseManage
     public partial class MainPurchase : UserControl
     {
         public static MainPurchase Instance;
-        public MainPurchase()
+
+
+        App.AccountTrans AccountTrans;
+        public MainPurchase(App.AccountTrans accountTrans)
         {
             InitializeComponent();
 
             Instance = this;
 
+            AccountTrans = accountTrans;
+
             Loaded += MainPurchase_Loaded;
+
+            if ((int)AccountTrans == (int)App.AccountTrans.Purchase) btnADD.Content = "فاتورة مشتريات";
+            else if ((int)AccountTrans == (int)App.AccountTrans.Sales) btnADD.Content = "فاتورة مبيعات";
+
+
         }
         List<TransactionAccounting> TransList;
-        private async void MainPurchase_Loaded(object sender, RoutedEventArgs e)
+        private  void MainPurchase_Loaded(object sender, RoutedEventArgs e)
         {
 
-            TransList = await new Models.Repositories.TransactionAccountingRepository().ListPerTransType((int)App.AccountTrans.Purchase);
+            GetDataTrans();
+        }
+
+
+       public async void GetDataTrans()
+        {
+            TransList = await new Models.Repositories.TransactionAccountingRepository().ListPerTransType((int)AccountTrans);
 
             DataGridListTrans.ItemsSource = GetTrans();
+
         }
 
 
@@ -78,7 +96,7 @@ namespace AccountingSystem.View.PurchaseManage
         private void btnADD_Click(object sender, RoutedEventArgs e)
         {
             AddContent.Visibility = Visibility.Visible;
-            AddContent.Content = new PurchaseManage.AddPurchase();
+            AddContent.Content = new PurchaseManage.AddPurchase(AccountTrans);
 
         }
 
@@ -102,7 +120,7 @@ namespace AccountingSystem.View.PurchaseManage
             };
 
             AddContent.Visibility = Visibility.Visible;
-            AddContent.Content = new PurchaseManage.AddPurchase(transactionAccounting);
+            AddContent.Content = new PurchaseManage.AddPurchase(transactionAccounting, AccountTrans);
         }
     }
 }

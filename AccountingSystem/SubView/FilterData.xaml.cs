@@ -25,6 +25,12 @@ namespace AccountingSystem.SubView
             InitializeComponent();
         }
 
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            if(e.Key==Key.Escape) Close();
+            base.OnKeyUp(e);
+        }
+
 
 
         public List<TransactionAccounting> transList;

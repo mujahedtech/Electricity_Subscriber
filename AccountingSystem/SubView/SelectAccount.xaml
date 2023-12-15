@@ -44,14 +44,15 @@
 
             <ListBox Name="ListAccount"
                      Grid.Row="3"
-                     Background="{StaticResource MainColor}"
+                     Background="WhiteSmoke"
                      SelectionChanged="ListAccount_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Label FontWeight="Bold"
                                    HorizontalContentAlignment="Center"
-                                   Content="{Binding AccountName}" />
+                                   Content="{Binding AccountName}"
+                                   Foreground="DodgerBlue"/>
                         </Grid>
 
                     </DataTemplate>

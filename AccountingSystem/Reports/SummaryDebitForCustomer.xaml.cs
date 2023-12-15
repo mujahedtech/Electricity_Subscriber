@@ -113,7 +113,7 @@ namespace AccountingSystem.Reports
         string GetAccSide(int Id)
         {
             string Value = "";
-            if (Id == 2 || Id == 4)
+            if (Id == 2 || Id == 4|| Id == 5)
                 Value = "Debit";
             else if (Id == 1 || Id == 3)
                 Value = "Credit";
@@ -123,7 +123,7 @@ namespace AccountingSystem.Reports
         int GetAccSideId(int Id)
         {
             int Value = 0;
-            if (Id == 2 || Id == 4)
+            if (Id == 2 || Id == 4 || Id == 5)
                 Value = 0;
             else if (Id == 1 || Id == 3)
                 Value = 1;

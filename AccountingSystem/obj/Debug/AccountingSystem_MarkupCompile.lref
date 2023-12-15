@@ -1,8 +1,8 @@
 ﻿
 FE:\C#\AccountingSystem\App.xaml;;
 FE:\C#\AccountingSystem\MainWindow.xaml;;
-FE:\C#\AccountingSystem\Reports\MainReportsWindow.xaml;;
 FE:\C#\AccountingSystem\Reports\MainReports.xaml;;
+FE:\C#\AccountingSystem\Reports\MainReportsWindow.xaml;;
 FE:\C#\AccountingSystem\Reports\MonthlyReports.xaml;;
 FE:\C#\AccountingSystem\Reports\SummaryDebitForCustomer.xaml;;
 FE:\C#\AccountingSystem\SubView\FilterData.xaml;;
@@ -25,4 +25,6 @@ FE:\C#\AccountingSystem\View\NajahEpic\DebitManage.xaml;;
 FE:\C#\AccountingSystem\View\NajahEpic\NajahMain.xaml;;
 FE:\C#\AccountingSystem\View\PurchaseManage\AddPurchase.xaml;;
 FE:\C#\AccountingSystem\View\PurchaseManage\MainPurchase.xaml;;
+FE:\C#\AccountingSystem\View\SheepManage\MainSheep.xaml;;
+FE:\C#\AccountingSystem\View\GasManage\GasReports.xaml;;
 

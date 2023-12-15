@@ -57,7 +57,7 @@ namespace AccountingSystem.View.NajahEpic
         private void ExpenseManage_Loaded(object sender, RoutedEventArgs e)
         {
             cobInv.ItemsSource = App.InventoryList.ToList();
-            CobAccount.ItemsSource = App.AccountList.ToList().Where(i => i.idclassAccount == (int)App.AccountType.Customer);
+            CobAccount.ItemsSource = App.AccountList.Where(i => i.idclassAccount == (int)App.AccountType.Customer).ToList();
 
 
 
@@ -217,7 +217,7 @@ namespace AccountingSystem.View.NajahEpic
 
         private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
         {
-            var Result = new SubView.SelectAccount();
+            var Result = new SubView.SelectAccount(App.AccountList.ToList().Where(i => i.idclassAccount == (int)App.AccountType.Customer).ToList());
 
 
             Result.ShowInTaskbar = false;

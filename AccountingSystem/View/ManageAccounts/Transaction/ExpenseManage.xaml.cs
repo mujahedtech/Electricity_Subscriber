@@ -1,4 +1,5 @@
-﻿using AccountingSystem.Models;
+﻿using AccountingSystem.ClassMujahed;
+using AccountingSystem.Models;
 using AccountingSystem.View.PurchaseManage;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,74 @@ namespace AccountingSystem.View.ManageAccounts.Transaction
             Loaded += ExpenseManage_Loaded;
         }
         int ValidCounter = 0;
+
+        void ValidControlData(Control Control, bool NumberValid = false)
+        {
+            if (Control is TextBox)
+            {
+                Control.FontFamily = new FontFamily(nameof(DataValidation.Validtion.Ok));
+                Control.ToolTip = null;
+
+                var Text = (TextBox)Control;
+
+                if (NumberValid)
+                {
+                    if (Text.Text.Length == 0 || DataValidation.Isint(Text.Text) == false)
+                    {
+
+                        Text.FontFamily = new FontFamily(nameof(DataValidation.Validtion.Error));
+                        Text.ToolTip = DataValidation.GetErrorMessage(Text);
+                        ValidCounter += 1;
+
+                    }
+                }
+                else
+                {
+                    if (Text.Text.Length == 0)
+                    {
+                        Text.FontFamily = new FontFamily(nameof(DataValidation.Validtion.Error));
+                        Text.ToolTip = DataValidation.GetErrorMessage(Text);
+                        ValidCounter += 1;
+
+                    }
+                }
+            }
+            else if (Control is ComboBox)
+            {
+                var Combo = (ComboBox)Control;
+
+                Combo.BorderBrush = Brushes.Gray;
+                Combo.ToolTip = null;
+
+                if (Combo.SelectedIndex == -1)
+                {
+                    Combo.BorderBrush = DataValidation.ErrorColor;
+                    Combo.ToolTip = DataValidation.GetErrorMessage(Combo);
+                    ValidCounter += 1;
+                }
+            }
+            else if (Control is DatePicker)
+            {
+                var datePicker = (DatePicker)Control;
+
+                datePicker.BorderBrush = Brushes.Gray;
+                datePicker.ToolTip = null;
+
+                if (DataValidation.IsDate(datePicker.Text) == false)
+                {
+                    datePicker.BorderBrush = DataValidation.ErrorColor;
+                    datePicker.ToolTip = DataValidation.GetErrorMessage(datePicker);
+                    ValidCounter += 1;
+
+                }
+
+
+
+            }
+
+
+        }
+
         void DefaultMode()
         {
             CobCenterCost.BorderBrush = Brushes.Gray;
@@ -94,54 +163,19 @@ namespace AccountingSystem.View.ManageAccounts.Transaction
             DefaultMode();
 
 
-            if (txtAmount.Text.Length == 0 || Isdouble(txtAmount.Text) == false)
-            {
-                var TextBox = txtAmount;
+            ValidControlData(txtAmount,true);
+            ValidControlData(txtDate);
+           
+            ValidControlData(CobAccount);
 
-                TextBox.FontFamily = new FontFamily(nameof(Validtion.Error));
-                TextBox.ToolTip = GetErrorMessage(TextBox);
 
-                ValidCounter += 1;
 
-            }
-
-            if (IsDate(txtDate.Text) == false)
-            {
-                var TextBox = txtDate;
-
-                TextBox.BorderBrush = ErrorColor;
-                TextBox.ToolTip = GetErrorMessage(TextBox);
-
-                ValidCounter += 1;
-
-            }
-
-            if (CobCenterCost.SelectedIndex == -1)
-            {
-                var TextBox = CobCenterCost;
-
-                TextBox.BorderBrush = ErrorColor;
-                TextBox.ToolTip = GetErrorMessage(TextBox);
-
-                ValidCounter += 1;
-
-            }
-            if (CobAccount.SelectedIndex == -1)
-            {
-                var TextBox = CobAccount;
-
-                TextBox.BorderBrush = ErrorColor;
-                TextBox.ToolTip = GetErrorMessage(TextBox);
-
-                ValidCounter += 1;
-
-            }
-
+          
 
             if (ValidCounter != 0) return;
 
             InsertData.AccountId = CobAccount.SelectedValue.GetHashCode();
-            InsertData.InventoryId = CobCenterCost.SelectedValue.GetHashCode();
+            InsertData.InventoryId = 0;
             InsertData.Amount = double.Parse(txtAmount.Text);
             InsertData.Note = txtNote.Text;
             InsertData.DateEntered = txtDate.SelectedDate.Value;
@@ -198,6 +232,27 @@ namespace AccountingSystem.View.ManageAccounts.Transaction
 
 
 
+        }
+
+        private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
+        {
+            var Result = new SubView.SelectAccount(App.AccountList.ToList());
+
+
+
+
+            Result.ShowInTaskbar = false;
+            Result.Owner = Application.Current.MainWindow;
+            Result.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            Result.Width = Application.Current.MainWindow.ActualWidth;
+            Result.Height = Application.Current.MainWindow.ActualHeight;
+
+            Result.ShowDialog();
+
+
+
+            CobAccount.SelectedItem = Result.AccountsSelected();
         }
     }
 
