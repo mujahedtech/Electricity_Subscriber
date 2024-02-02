@@ -82,7 +82,7 @@ namespace Electricity_Subscriber.Layouts
         }
 
 
-        System.Data.DataTable DT = new System.Data.DataTable();
+       public System.Data.DataTable DT = new System.Data.DataTable();
 
 
 
@@ -340,7 +340,7 @@ namespace Electricity_Subscriber.Layouts
         {
             if (Completeload == true)
             {
-                Completeload = false;
+                  Completeload = false;
                 View = new Window();
 
 
@@ -461,7 +461,7 @@ namespace Electricity_Subscriber.Layouts
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(double));
                     }
-                    else if (header.InnerText == "شهر الإصدار")
+                    else if (header.InnerText == "شهر الإصدار"|| header.InnerText == "DateBill" )
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(DateTime));
                     }
@@ -491,7 +491,10 @@ namespace Electricity_Subscriber.Layouts
                 TablePayment.Columns["القيمة المتبقية"].ColumnName = "RequiredAmount";
             }
 
-
+            else
+            {
+                MessageBox.Show("Not Found");
+            }
 
 
             return TablePayment;
@@ -523,7 +526,7 @@ namespace Electricity_Subscriber.Layouts
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(double));
                     }
-                    else if (header.InnerText == "شهر الإصدار")
+                    else if (header.InnerText == "شهر الإصدار" || header.InnerText == "DateBill")
                     {
                         TablePayment.Columns.Add(header.InnerText, typeof(DateTime));
                     }
@@ -742,11 +745,13 @@ namespace Electricity_Subscriber.Layouts
             txtMonth.ItemsSource = ListMonth;
 
             List<string> ListYear = new List<string>();
-            ListYear.Add("2019");
-            ListYear.Add("2020");
-            ListYear.Add("2021");
-            ListYear.Add("2022");
-            ListYear.Add("2023");
+            ListYear.Add(DateTime.Now.AddYears(-4).Year.ToString());
+            ListYear.Add(DateTime.Now.AddYears(-3).Year.ToString());
+            ListYear.Add(DateTime.Now.AddYears(-2).Year.ToString());
+            ListYear.Add(DateTime.Now.AddYears(-1).Year.ToString());
+            ListYear.Add(DateTime.Now.AddYears(0).Year.ToString());
+
+            
 
 
 
@@ -960,7 +965,7 @@ namespace Electricity_Subscriber.Layouts
 
                 var index = ((Button)e.Source).Uid;
 
-                Print.Owner = MainWindow.Main;
+                Print.Owner = MainWindow.Instance;
 
                 switch (index)
                 {
@@ -1013,24 +1018,11 @@ namespace Electricity_Subscriber.Layouts
             if (DT.Rows.Count > 0)
             {
                 string ID = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][3].ToString();
-                string SubName = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][1].ToString();
-                foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).FrameMain.NavigationService.Navigate(new Layouts.CustomReport(ID, SubName));
-                    }
-                }
+                string SubName = DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)][2].ToString();
+                MainWindow.Instance.FrameMain.NavigationService.Navigate(new Layouts.CustomReport(ID, SubName));
                 return;
             }
-            foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
-            {
-                if (window.GetType() == typeof(MainWindow))
-                {
-                    (window as MainWindow).FrameMain.NavigationService.Navigate(new Layouts.CustomReport("", ""));
-                }
-            }
-
+            MainWindow.Instance.FrameMain.NavigationService.Navigate(new Layouts.CustomReport("", ""));
 
         }
 
@@ -1077,6 +1069,28 @@ namespace Electricity_Subscriber.Layouts
         private void PrintData_Click(object sender, RoutedEventArgs e)
         {
             WebView();
+        }
+
+        private void RemoveData_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (DT.Rows.Count>0)
+            {
+                DT.Rows.Remove(DT.Rows[Datagrid1.Items.IndexOf(Datagrid1.CurrentItem)]);
+
+
+
+                DT.Rows.RemoveAt(DT.Rows.Count - 1);
+
+                if (DT.Rows.Count >= 1) DT.Rows.Add(null, null, "مجموع", "", DT.Compute("Sum(PreviousAmount)", ""), DT.Compute("Sum(BillAmount)", ""), DT.Compute("Sum(PaidAmount)", ""), DT.Compute("Sum(TotalAmount)", ""), "", "", "", "", "");
+
+
+
+
+
+                Datagrid1.ItemsSource = DT.DefaultView;
+            }
+           
         }
 
         private void datagridview1_LoadingRow_1(object sender, DataGridRowEventArgs e)

@@ -516,7 +516,7 @@
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   Name="Datagrid1"
                                   Grid.Row="2"
-                                  IsReadOnly="True" FontWeight="Normal" >
+                                  IsReadOnly="True" FontWeight="Normal" HorizontalContentAlignment="Center" >
 
 
                             <DataGrid.RowStyle>
@@ -654,21 +654,43 @@
                                         <DataTemplate>
 
 
-                                            <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                                                    Background="{x:Null}"
-                                                    BorderBrush="{x:Null}"
-                                                    Height="20"
-                                                    Width="20"
-                                                    Name="PrintData"
-                                                    Click="PrintData_Click" CommandParameter="{Binding .}"
-                                                   >
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                                        Background="{x:Null}"
+                                                        BorderBrush="{x:Null}"
+                                                        Height="20"
+                                                        Width="20"
+                                                        Name="PrintData"
+                                                        Click="PrintData_Click"
+                                                        CommandParameter="{Binding .}"
+                                                        Margin="10 0">
 
-                                                <materialDesign:PackIcon Height="20"
-                                                                         Width="20"
-                                                                         Kind="Printer"
-                                                                         Foreground="Black" />
-                                            </Button>
+                                                    <materialDesign:PackIcon Height="20"
+                                                                             Width="20"
+                                                                             Kind="Printer"
+                                                                             Foreground="Black" />
+                                                </Button>
 
+
+                                                <Button 
+                                                        Background="{x:Null}"
+                                                        BorderBrush="{x:Null}"
+                                                      Height="15" Width="15" Padding="0"
+                                                        Name="RemoveData"
+                                                        Click="RemoveData_Click"
+                                                        CommandParameter="{Binding .}"
+                                                        Margin="10 0">
+
+                                                    <materialDesign:PackIcon 
+                                                                             Kind="Delete"
+                                                                             Foreground="Red" />
+                                                </Button>
+
+
+
+                                            </StackPanel>
+                                            
+                                           
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -741,7 +763,7 @@
 
         </Grid>
 
-
+       
 
     </Grid>
 

@@ -1,0 +1,257 @@
+﻿<Window x:Class="Electricity_Subscriber.Layouts.PrintSingle"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Electricity_Subscriber.Layouts"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="PrintSingle"
+        Height="450"
+        Width="800">
+    <Grid>
+        <Grid>
+
+
+            <ScrollViewer Name="MainGrid"
+                          VerticalScrollBarVisibility="Hidden">
+
+
+                <Border  CornerRadius="10"
+                         Margin="2"
+                         Padding="2"
+                         BorderBrush="Black"
+                         BorderThickness="0">
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="10"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                            <Button HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding PrintCommand}">
+                                <materialDesign:PackIcon Kind="Printer" />
+                            </Button>
+
+                            <Grid Width="10" />
+
+                            <materialDesign:Card  FlowDirection="RightToLeft"
+                                                  Margin="10,3"
+                                                  BorderThickness="1"
+                                                  BorderBrush="White"
+                                                  Padding="10,0">
+                                <ComboBox  Background="White"
+                                           MinWidth="100"
+                                           VerticalContentAlignment="Center"
+                                           Foreground="Black"
+                                           FontSize="15" 
+                                           SelectedItem="{Binding GetSelectPrinter,Mode=TwoWay}"
+                                           ItemsSource="{Binding PrinterList}" />
+                            </materialDesign:Card>
+
+                            <TextBox FontWeight="Bold"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="60"
+                                     MinWidth="50"
+                                     Name="PrintSize" />
+
+                        </StackPanel>
+                        <StackPanel Name="PrintContent" Margin="5,0">
+                          
+
+
+                            <TextBlock Margin="0 10"
+                                       Text="كشف كهرباء تفصيلي"
+                                       HorizontalAlignment="Center"
+                                       FontFamily="arial"
+                                       FontSize="35" />
+
+                            <Grid Height="60"
+                                  Margin="0, 10"
+                                  Background="White">
+
+
+                                <Grid  FlowDirection="RightToLeft"
+                                       HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock  FontWeight="Black"
+                                                Text="رقم المشترك"
+                                                FontSize="20"
+                                                HorizontalAlignment="Right" />
+
+
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="2"
+                                               Text="{Binding IdSubscribe}"
+                                               FontSize="18"
+                                               HorizontalAlignment="Left"
+                                               FontWeight="Normal" />
+
+
+
+
+
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="0"
+                                               Text=" اسم المشترك"
+                                               FontSize="18"
+                                               HorizontalAlignment="Right"
+                                               FontWeight="Black" />
+
+
+
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="2"
+                                               Text="{Binding NameSubscribe}"
+                                               FontSize="20"
+                                               HorizontalAlignment="Left"
+                                               FontWeight="Normal" />
+
+
+
+
+
+                                </Grid>
+
+                            </Grid>
+                            <ListView Height="40"
+                                      
+                                      FlowDirection="RightToLeft"
+                                      x:Name="lbEurInsureType">
+                                <ListView.Template>
+                                    <ControlTemplate>
+                                        <materialDesign:Card FontWeight="Black"
+                                                             FontSize="15">
+
+
+                                            <DockPanel LastChildFill="True">
+
+                                                <Grid Height="50"
+                                                      VerticalAlignment="Center"
+                                                      DockPanel.Dock="Top">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="0"
+                                                           Content="تاريخ الاصدار" />
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="1"
+                                                           Content="كمية الاستهلاك" />
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="2"
+                                                           Content="قيمة الفاتورة" />
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="3"
+                                                           Content="المبلغ المدفوع" />
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="4"
+                                                           Content="المبلغ المبتقي" />
+                                                    <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Center"
+                                                           Grid.Column="5"
+                                                           Content="تاريخ السداد" />
+
+
+
+                                                </Grid>
+                                                <ItemsPresenter />
+                                            </DockPanel>
+                                        </materialDesign:Card>
+                                    </ControlTemplate>
+                                </ListView.Template>
+
+                            </ListView>
+                            <ItemsControl x:Name="listSubscribes"
+                                          ItemsSource="{Binding Subscribes}"
+                                          Margin="0,5,0,0"
+                                          FlowDirection="RightToLeft">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Card Margin="0,2"
+                                                             Padding="5"
+                                                             FontSize="15">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding DateBill,StringFormat='MM / yyyy'}"
+                                                           HorizontalAlignment="Center"
+                                                           Grid.Column="0" />
+                                                <TextBlock Text="{Binding Consume_KW}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Grid.Column="1" />
+                                                <TextBlock Text="{Binding BillAmount}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Grid.Column="2" />
+                                                <TextBlock Text="{Binding PaidAmount}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Grid.Column="3" />
+                                                <TextBlock Text="{Binding RequiredAmount}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Grid.Column="4" />
+                                                <TextBlock Text="{Binding PaidDate}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Grid.Column="5" />
+
+
+                                            </Grid>
+
+                                        </materialDesign:Card>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="@Design By Mujahed Tech"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Gray"
+                                       FontWeight="Bold"
+                                       FontSize="15" />
+                        </StackPanel>
+                       
+                    </StackPanel>
+                    
+
+                </Border>
+
+            </ScrollViewer>
+
+
+        </Grid>
+
+    </Grid>
+</Window>

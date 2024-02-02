@@ -80,6 +80,55 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="{x:Type Button}"
+                   x:Key="BtnFilter">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="10,3"
+                                    CornerRadius="10"
+                                    Background="DodgerBlue">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Cursor"
+                                                        Value="Hand" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <Grid FlowDirection="RightToLeft">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Center"
+                                                             Margin="2"
+                                                             Foreground="White"
+                                                             Height="40"
+                                                             Width="40"
+                                                             Kind="DateRange" />
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Text="{TemplateBinding Content}"
+                                               Foreground="White"
+                                               FontSize="15"
+                                               FontWeight="Black" />
+                                </Grid>
+
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
 
             <Style TargetType="{x:Type Button}" x:Key="BtnSearch">
                 <Setter Property="Template">
@@ -209,9 +258,17 @@
                                 <TextBlock VerticalAlignment="Center" FontSize="25" Text=" للبحث"/>
 
                                 <materialDesign:Card Padding="10 0" Margin="10 0">
-                                    <TextBox MaxLength="10" BorderBrush="Transparent"   Name="txtID" TextAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  Width="200" Background="{StaticResource MainElementColor2}"/>
+                                <TextBox MaxLength="10"
+                                         BorderBrush="Transparent"
+                                         Name="txtID"
+                                         TextAlignment="Center"
+                                         Height="50"
+                                         VerticalContentAlignment="Center"
+                                         FontSize="25"
+                                         Width="200"
+                                         Background="{StaticResource MainElementColor2}" />
 
-                                </materialDesign:Card>
+                            </materialDesign:Card>
                                 <materialDesign:Card Padding="10 0" Margin="10 0">
                                     <TextBlock Name="txtNameSub" Text=""   TextAlignment="Center"  VerticalAlignment="Center"  FontSize="25"   Background="{StaticResource MainElementColor2}"/>
 
@@ -227,9 +284,16 @@
 
                                     </StackPanel>
                                 </materialDesign:Card>
-                                <Button Uid="Printer" Content="طباعة"  Style="{StaticResource BtnPrint}"  HorizontalAlignment="Right"   VerticalAlignment="Center" Click="Button_Click" />
+                            <Button Uid="Printer"
+                                    Content="طباعة"
+                                    Style="{StaticResource BtnPrint}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Click="Button_Click" />
 
-                            </StackPanel>
+                            <TextBlock Name="txtCounter" Text="dsa"/>
+
+                        </StackPanel>
 
 
                             <StackPanel FlowDirection="RightToLeft"  Grid.Row="1" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
@@ -279,9 +343,21 @@
                                     <ComboBox BorderBrush="Transparent"  Name="txtYearTo" SelectedIndex="3" DisplayMemberPath="YearName" ItemsSource="{Binding YearList}" HorizontalContentAlignment="Center" Height="50" VerticalContentAlignment="Center" FontSize="25"  Width="90" Background="{StaticResource MainElementColor2}"/>
 
                                 </materialDesign:Card>
+                            <Button Uid="Printer"
+                                    Content="فلتر"
+                                    Style="{StaticResource BtnFilter}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Name="btnDateFilter" Click="btnDateFilter_Click"/>
+                            <Button Uid="Printer" Margin="10,0"
+                                    Content="ازالة"
+                                    Style="{StaticResource BtnFilter}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Name="btnDateClearFilter"
+                                    Click="btnDateClearFilter_Click" />
 
-
-                            </StackPanel>
+                        </StackPanel>
 
 
 
@@ -289,15 +365,45 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition/>
+                              
 
-                                </Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
                                 <materialDesign:Card Padding="2" Margin="5" >
                                     <ListBox FontSize="20" Name="list1"  Background="White"/>
 
                                 </materialDesign:Card>
-                                <DataGrid AutoGeneratedColumns="Datagrid1_AutoGeneratedColumns" FontWeight="Bold" FontSize="15" Grid.Column="1"   MinWidth="900"    ScrollViewer.VerticalScrollBarVisibility="Hidden"    Name="Datagrid1"  IsReadOnly="True" >
+                                
+                                
+                                
+                                
+                            <DataGrid AutoGeneratedColumns="Datagrid1_AutoGeneratedColumns"
+                                      FontWeight="Bold"
+                                      FontSize="15"
+                                      Grid.Column="1"
+                                      MinWidth="900"
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                      Name="Datagrid1"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Index}"
+                                                        Header="Index" />
+                                    <DataGridTextColumn Binding="{Binding DateBill,StringFormat='MM / yyyy'}"
+                                                        Header="DateBill" />
+                                    <DataGridTextColumn Binding="{Binding Consume_KW}"
+                                                        Header="Consume_KW" />
+                                    <DataGridTextColumn Binding="{Binding BillAmount}"
+                                                        Header="BillAmount" />
+                                    <DataGridTextColumn Binding="{Binding PaidAmount}"
+                                                        Header="PaidAmount" />
+                                    <DataGridTextColumn Binding="{Binding RequiredAmount}"
+                                                        Header="RequiredAmount" />
+                                    <DataGridTextColumn Binding="{Binding PaidDate}"
+                                                        Header="PaidDate" />
+                                </DataGrid.Columns>
 
-                                    <DataGrid.Resources>
+                                <DataGrid.Resources>
                                         <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                                             <!--<Setter Property="FontSize" Value="20"/>-->
 
@@ -312,7 +418,9 @@
                                     </DataGrid.Resources>
                                 </DataGrid>
 
-                            </Grid>
+
+
+                        </Grid>
 
 
                         </Grid>
@@ -331,6 +439,48 @@
             </Grid>
 
 
+            <Grid Visibility="{Binding ElementName=gridview,Path=Visibility}">
+
+                <Grid.Background>
+                    <SolidColorBrush Color="#FFB4B1B1"
+                                     Opacity=".6" />
+                </Grid.Background>
+
+
+
+                <Border Visibility="Collapsed"
+                        BorderBrush="Black"
+                        Background="{StaticResource MainColor}"
+                        CornerRadius="360"
+                        x:Name="gridview"
+                        Height="350"
+                        Width="350"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                    <Grid x:Name="maingrid"
+                          Background="{StaticResource MainColor}"
+                          Height="300"
+                          Width="300">
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Grid.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetName="maingrid"
+                                                         Storyboard.TargetProperty="Height"
+                                                         From="100"
+                                                         To="800"
+                                                         Duration="0:0:3"
+                                                         AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        <Image Source="pack://application:,,,/Resources/Main Logo Transparent.png"
+                               Stretch="Uniform" />
+                    </Grid>
+                </Border>
+
+            </Grid>
 
 
 

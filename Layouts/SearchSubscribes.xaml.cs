@@ -21,9 +21,13 @@ namespace Electricity_Subscriber.Layouts
     /// </summary>
     public partial class SearchSubscribes : UserControl
     {
+
+        public static SearchSubscribes Instance;
         public SearchSubscribes()
         {
             InitializeComponent();
+
+            Instance = this;
 
             Customtab = MainTab;
         }
@@ -33,18 +37,24 @@ namespace Electricity_Subscriber.Layouts
 
         public static TabControl Customtab;
 
+
+      public  List<Show_Subscriber> Customtabs=new List<Show_Subscriber>();
+
         public void AddTab(string tabName="")
         {
             TabItem Tab = new TabItem();
 
-            Tab.Content = new Layouts.Show_Subscriber(tabName);
+            Customtabs.Add(new Layouts.Show_Subscriber(tabName));
+
+
+            Tab.Content = Customtabs.LastOrDefault();
 
 
             if (tabName=="")
             {
                 tabName = "Tab " + (MainTab.Items.Count+1);
 
-                var viewcontent = new Layouts.Show_Subscriber(tabName);
+                var viewcontent = Customtabs.LastOrDefault();
 
                 viewcontent.FirstRun = true;
 
@@ -82,16 +92,29 @@ namespace Electricity_Subscriber.Layouts
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-          
-            int Selected = Customtab.SelectedIndex;
-
-            Customtab.Items.RemoveAt(Selected);
-
-            if (Customtab.Items.Count == 0)
+            try
             {
-                AddTab();
-                Customtab.SelectedIndex = 0;
+                int Selected = Customtab.SelectedIndex;
+
+                Customtab.Items.RemoveAt(Selected);
+
+
+                Customtabs.RemoveAt(Selected);
+
+
+                if (Customtab.Items.Count == 0)
+                {
+                    AddTab();
+                    Customtab.SelectedIndex = 0;
+                }
             }
+            catch (Exception)
+            {
+
+                
+            }
+          
+          
         }
 
        

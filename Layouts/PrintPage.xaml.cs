@@ -88,6 +88,13 @@ namespace Electricity_Subscriber.Layouts
         }
 
         System.Data.DataTable DTChecks = new System.Data.DataTable();
+
+        public PrintPage()
+        {
+            InitializeComponent();
+
+          
+        }
         public PrintPage(string TypeAccount,string MonthSelected,System.Data.DataTable DtReport)
         {
             InitializeComponent();
@@ -102,6 +109,13 @@ namespace Electricity_Subscriber.Layouts
 
         private void PrintPage_Loaded(object sender, RoutedEventArgs e)
         {
+
+           
+
+
+            var list = System.Drawing.Printing.PrinterSettings.InstalledPrinters.Cast<string>().ToList();
+
+
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
                 txtPrinter.Items.Add(printer);

@@ -17,6 +17,9 @@ namespace Electricity_Subscriber.CL
         public Electric(string Url)
         {
             WebRequest request = WebRequest.Create(Url);
+
+          
+
             using (WebResponse response = request.GetResponse())
             using (StreamReader stream = new StreamReader(response.GetResponseStream()))
             {

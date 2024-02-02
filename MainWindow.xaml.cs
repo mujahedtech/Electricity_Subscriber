@@ -21,6 +21,7 @@ using Firebase.Database.Streaming;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Reactive.Linq;
+using Electricity_Subscriber.Layouts;
 
 namespace Electricity_Subscriber
 {
@@ -52,7 +53,7 @@ namespace Electricity_Subscriber
     {
 
 
-        public static MainWindow Main;
+        public static MainWindow Instance;
 
 
         void FillColor() 
@@ -218,10 +219,10 @@ namespace Electricity_Subscriber
             //GridPass.Visibility = Visibility.Visible;
             FrameMain.NavigationService.Navigate(new Layouts.Home());
 
-            Main = this;
+            Instance = this;
 
 
-           
+            GridPass.Visibility = Visibility.Visible;
 
 
             CL.Pass.DataTable = new System.Data.DataTable();
@@ -366,6 +367,13 @@ namespace Electricity_Subscriber
                     {
                         FrameMain.NavigationService.GoBack();
                     }
+                    break;
+
+                case 6:
+                    if (FrameMain.NavigationService.CanGoForward)
+                    {
+                        FrameMain.NavigationService.GoForward();
+                    }
 
                     break;
 
@@ -432,7 +440,7 @@ namespace Electricity_Subscriber
 
                     break;
                 case 4:
-                    //FrameMain.NavigationService.Navigate(new ReportLayouts.MainReport());
+                    FrameMain.NavigationService.Navigate(new Layouts.CustomReport());
 
                     break;
                 case 5:
@@ -581,6 +589,30 @@ namespace Electricity_Subscriber
             btnColor.IsChecked = false;
 
            
+        }
+
+        private void btnExpandWindows_Click(object sender, RoutedEventArgs e)
+        {
+            Show_Subscriber View = new Show_Subscriber();
+
+           var i= SearchSubscribes.Instance.MainTab.SelectedIndex;
+            i--;
+           
+            View.txtYear.Text = Search.Customtabs[i].txtYear.Text;
+            View.txtMonth.Text = Search.Customtabs[i].txtMonth.Text;
+            View.txtType.Text = Search.Customtabs[i].txtType.Text;
+
+            View.DT = Search.Customtabs[i].DT.Copy();
+
+            View.Datagrid1.ItemsSource = Search.Customtabs[i].DT.DefaultView;
+
+
+
+
+            //View= Search.Customtabs.LastOrDefault();
+
+
+            new Window { Content = View ,WindowStartupLocation=WindowStartupLocation.CenterScreen}.ShowDialog();
         }
     }
 }

@@ -13,6 +13,7 @@
         Height="700" Width="1200"
         Loaded="Window_Loaded"
         AllowsTransparency="True"
+        FocusManager.FocusedElement="{Binding ElementName= txtPassWord}"
         >
     <Grid Name="TotalGrid">
         <Border BorderThickness="2" BorderBrush="Black" Padding="2">
@@ -42,8 +43,18 @@
                         <Button Click="btnTopButtons" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                             <materialDesign:PackIcon Kind="Power" Foreground="White" Width="25" Height="25" />
                         </Button>
-
-                        <Button Click="btnTopButtons" Uid="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                            <Button Click="btnTopButtons"
+                                    Uid="6"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                <materialDesign:PackIcon Kind="ArrowBack"
+                                                         Foreground="White"
+                                                         Width="25"
+                                                         Height="25" />
+                            </Button>
+                            <Button Click="btnTopButtons" Uid="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                             <materialDesign:PackIcon Kind="ArrowForward" Foreground="White" Width="25" Height="25" />
                         </Button>
                     </StackPanel>
@@ -81,6 +92,27 @@
                                                           Width="25"
                                                           Height="25" />
                             </ToggleButton>
+
+
+                            <ToggleButton Background="{x:Null}"
+                                          BorderBrush="{x:Null}"
+                                          VerticalAlignment="Center"
+                                          x:Name="btnExpandWindows"
+                                          Click="btnExpandWindows_Click"
+                                          Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                                <materialDesign:PackIcon  Kind="WindowRestore"
+                                                          Foreground="White"
+                                                          Width="25"
+                                                          Height="25" />
+                            </ToggleButton>
+
+
+                          
+
+
+
+
+
 
 
                             <Popup StaysOpen="True" IsOpen="{Binding ElementName=btnColor,Path=IsChecked}" Placement="Bottom" PlacementTarget="{Binding ElementName=btnColor}" AllowsTransparency="True">
@@ -148,7 +180,7 @@
                         <Button Visibility="Visible" Grid.Column="1" Uid="1" Height="40" Content="تقرير"        Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" Name="btnAddcompany"/>
                         <Button Visibility="Visible" Grid.Column="2" Uid="2" Height="40" Content="الاشتراكات"   Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
                         <Button Visibility="Visible" Grid.Column="3" Uid="3" Height="40" Content="طباعة سريعة"   Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource  MainTextColor}" Click="btnMainButtons" />
-                        <Button Visibility="Collapsed" Grid.Column="4" Uid="4" Height="40" Content= ""     Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" />
+                        <Button Visibility="Visible" Grid.Column="4" Uid="4" Height="40" Content= "كشف تفصيلي"     Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" />
                         <Button Visibility="Collapsed" Grid.Column="5" Uid="5" Height="40" Content=""     Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"  />
                         <Button Visibility="Collapsed" Grid.Column="6" Uid="6" Height="40" Content=""      Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons"/>
                         <Button  Grid.Column="7" Uid="7" Height="40" Content=""  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource MainTextColor}" Click="btnMainButtons" Visibility="Collapsed"/>
@@ -221,7 +253,7 @@
 
 
 
-        <Grid Background="White" Name="GridPass" Visibility="Visible">
+        <Grid Background="White" Name="GridPass" Visibility="Collapsed">
             <materialDesign:Card Padding="10,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <PasswordBox FontSize="15" MinWidth="250" Name="txtPassWord" KeyDown="txtPassWord_KeyDown"/>
             </materialDesign:Card>
